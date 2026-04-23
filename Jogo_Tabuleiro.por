@@ -5,15 +5,13 @@ programa
 	// Variáveis globais para armazenar as vitórias, pois o placar deve persistir durante toda o tempo em que o jogo estiver aberto
 	inteiro vitoriasJogador1 = 0
 	inteiro vitoriasJogador2 = 0
-	cadeia nomeJogador1 = ""
-	cadeia nomeJogador2 = ""
 	cadeia timeJogador1 = ""
 	cadeia timeJogador2 = ""
 
 	// Função inicial, bloco principal que exibe o menu e controla a execução geral do programa
 	funcao inicio()
 	{
-		inteiro opcaoMenu = 0
+		caracter opcaoMenu = '0'
 		logico executando = verdadeiro
 
 		// Laço principal que mantém o jogo aberto até o usuário escolher a opção de sair
@@ -28,14 +26,16 @@ programa
 			escreva("===================================================\n")
 			escreva("Escolha uma opção: ")
 			leia(opcaoMenu)
+			
+			limpa()
 
 			// Executa blocos separados de acordo com a opção que o usuário escolher no menu  (Jogar, Placar, e Sair)
-			se (opcaoMenu == 1) {
+			se (opcaoMenu == '1') {
 				prepararJogo() // Coleta de informações iniciais
 				jogarPartida() // Roda o jogo de tabuleiro propriamente dito
-			} senao se (opcaoMenu == 2) {
+			} senao se (opcaoMenu == '2') {
 				mostrarPlacar() // Exibe a tabela de vitórias cumulativas
-			} senao se (opcaoMenu == 3) {
+			} senao se (opcaoMenu == '3') {
 				escreva("Fim de jogo! Apito final e fim da transmissão!\n")
 				executando = falso // Quebra a condição do while e encerra o sistema
 			} senao {
@@ -53,12 +53,6 @@ programa
 		escreva("- O primeiro jogador a alcançar a casa final vence.\n")
 		escreva("- O dado possui 6 lados, mas durante a trajetória, as casas ativam lances de futebol (bônus ou punições).\n\n")
 
-		// Leitura dos nomes das pessoas que vão jogar
-		escreva("Jogador 1, qual é o seu nome? ")
-		leia(nomeJogador1)
-		escreva("Jogador 2, qual é o seu nome? ")
-		leia(nomeJogador2)
-
 		cadeia timesDisponiveis = "a, b, c, d, e, f, g"
 		logico time1Valido = falso
 		logico time2Valido = falso
@@ -67,7 +61,7 @@ programa
 		enquanto(time1Valido == falso)
 		{
 			escreva("\nTimes disponíveis da liga: ", timesDisponiveis, "\n")
-			escreva(nomeJogador1, ", escolha a letra do seu time (a, b, c, d, e, f, g): ")
+			escreva("Jogador 1, escolha a letra do seu time (a, b, c, d, e, f, g): ")
 			leia(timeJogador1)
 
 			// Verifica se o time é uma das letras permitidas em caractere individual
@@ -77,23 +71,28 @@ programa
 				escreva("Time inválido! Você chutou pra fora. Tente escolher uma letra aceita na lista.\n")
 			}
 		}
+		
+		limpa()
+		escreva("--- PREPARAÇÃO PARA O JOGO ---\n")
 
 		// Validação e escolha do time do Jogador 2, possuindo uma regra rigorosa que não pode ser igual ao do Jogador 1
 		enquanto(time2Valido == falso)
 		{
 			escreva("\nTimes disponíveis (exceto ", timeJogador1, "): a, b, c, d, e, f, g\n")
-			escreva(nomeJogador2, ", escolha a letra do seu time: ")
+			escreva("Jogador 2, escolha a letra do seu time: ")
 			leia(timeJogador2)
 
 			// Impede escolha repetida e checa se digitou letras estritas
 			se (timeJogador2 == timeJogador1) {
-				escreva("Falta! Esse time já foi escolhido pelo ", nomeJogador1, " e não pode ser repetido. Escolha outro.\n")
+				escreva("Falta! Esse time já foi escolhido pelo Jogador 1 e não pode ser repetido. Escolha outro.\n")
 			} senao se (timeJogador2 == "a" ou timeJogador2 == "b" ou timeJogador2 == "c" ou timeJogador2 == "d" ou timeJogador2 == "e" ou timeJogador2 == "f" ou timeJogador2 == "g") {
 				time2Valido = verdadeiro // Tudo certo, sai do loop 
 			} senao {
 				escreva("Time inválido ou Inexistente! Tente de novo.\n")
 			}
 		}
+		
+		limpa()
 	}
 
 	// Função de exibir apenas dados formatados sobre quem lidera o número de jogos
@@ -103,13 +102,75 @@ programa
 		escreva("🏆 PLACAR GERAL DO CAMPEONATO🏆\n")
 		escreva("===================================================\n")
 		// Verificamos se houve pelo menos uma pessoa registrando seu jogo para então mostrar os pontos
-		se (nomeJogador1 != "") {
-			escreva(nomeJogador1, " (Time ", timeJogador1, "): ", vitoriasJogador1, " vitória(s)\n")
-			escreva(nomeJogador2, " (Time ", timeJogador2, "): ", vitoriasJogador2, " vitória(s)\n")
+		se (timeJogador1 != "") {
+			escreva("Jogador 1 (Time ", timeJogador1, "): ", vitoriasJogador1, " vitória(s)\n")
+			escreva("Jogador 2 (Time ", timeJogador2, "): ", vitoriasJogador2, " vitória(s)\n")
 		} senao {
 			escreva("A temporada ainda não iniciou! Jogue a primeira partida e volte aqui.\n")
 		}
 		escreva("===================================================\n\n")
+	}
+
+	funcao tocarAudio(inteiro casa, inteiro dado)
+	{
+		// Estrutura reservada para no futuro adicionar áudio
+		// Exemplo: se (casa == 21) { tocarSom("apito.wav") }
+	}
+
+	funcao animarDado(inteiro numero)
+	{
+		escreva("\n")
+		escreva(" +-------+ \n")
+		se (numero == 1) { 
+			escreva(" |       | \n")
+			escreva(" |   .   | \n")
+			escreva(" |       | \n")
+		} senao se (numero == 2) { 
+			escreva(" | .     | \n")
+			escreva(" |       | \n")
+			escreva(" |     . | \n")
+		} senao se (numero == 3) { 
+			escreva(" | .     | \n")
+			escreva(" |   .   | \n")
+			escreva(" |     . | \n")
+		} senao se (numero == 4) { 
+			escreva(" | .   . | \n")
+			escreva(" |       | \n")
+			escreva(" | .   . | \n")
+		} senao se (numero == 5) { 
+			escreva(" | .   . | \n")
+			escreva(" |   .   | \n")
+			escreva(" | .   . | \n")
+		} senao se (numero == 6) { 
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
+		}
+		escreva(" +-------+ \n")
+	}
+
+	funcao exibirTabuleiro(inteiro pos1, inteiro pos2, cadeia t1, cadeia t2)
+	{
+		escreva("\n--- CAMPO DE JOGO ---\n")
+		para (inteiro i = 1; i <= 25; i++) {
+			se (pos1 == i e pos2 == i) {
+				escreva("[", t1, ",", t2, "] ")
+			} senao se (pos1 == i) {
+				escreva("[ ", t1, " ] ")
+			} senao se (pos2 == i) {
+				escreva("[ ", t2, " ] ")
+			} senao {
+				se (i < 10) {
+					escreva("[ 0", i, "] ")
+				} senao {
+					escreva("[ ", i, "] ")
+				}
+			}
+			se (i == 8 ou i == 16) {
+				escreva("\n")
+			}
+		}
+		escreva("\n---------------------\n")
 	}
 
 	// Função gigante que comanda o núcleo de lógica do tabuleiro propriamente dito, rodada a rodada
@@ -117,8 +178,8 @@ programa
 	{
 		// Usamos vetores para guardar as informações de ambos os jogadores pareadamente 
 		cadeia nomes[2]
-		nomes[0] = nomeJogador1
-		nomes[1] = nomeJogador2
+		nomes[0] = "Jogador 1"
+		nomes[1] = "Jogador 2"
 		
 		cadeia times[2]
 		times[0] = timeJogador1
@@ -136,12 +197,14 @@ programa
 		
 		inteiro vez = 0 // "0" significa que é o jogador 1 atual, enquanto "1" é o jogador 2
 		logico partidaEmAndamento = verdadeiro
-		inteiro controleDado
+		caracter controleDado
 		
 		escreva("\n===================================================\n")
 		escreva("⚽ BOLA ROLANDO! INÍCIO DA PARTIDA! ⚽\n")
 		escreva("Ambos os jogadores iniciam na casa 1.\n")
 		escreva("===================================================\n")
+		
+		exibirTabuleiro(casas[0], casas[1], times[0], times[1])
 
 		// Laço principal do Tabuleiro, que continua a girar rodadas até que alguém derrote o percurso
 		enquanto(partidaEmAndamento == verdadeiro)
@@ -153,12 +216,13 @@ programa
 				pAdversario = 0
 			}
 
-			escreva("\n---> Vez do Jogador ", pAtual + 1, ": ", nomes[pAtual], " (Time ", times[pAtual], ") <---\n")
+			escreva("\n---> Vez do ", nomes[pAtual], " (Time ", times[pAtual], ") <---\n")
 			
 			// Se o jogador possuir um "Cartão Amarelo/Vermelho" pendente (maior que 0), ele é obrigado a pular este turno 
 			se (penalidades[pAtual] > 0) {
 				escreva("Você está suspenso pelo juiz e aguarda no banco! (Foi punido e vai perder sua rodada).\n")
 				penalidades[pAtual] = penalidades[pAtual] - 1 // Desconta para na próxima rodada poder se libertar da penalidade
+				exibirTabuleiro(casas[0], casas[1], times[0], times[1])
 			} senao {
 				logico turnoValido = verdadeiro
 				
@@ -166,11 +230,24 @@ programa
 				enquanto (turnoValido == verdadeiro) {
 					turnoValido = falso // Define como falso pra não ficar no loop contínuo (a menos que a casa 23 ligue a chave de novo)
 					
-					escreva("Digite o número 1 e aperte ENTER para mandar um bicão na bola (jogar o dado): ")
+					escreva("PRESSIONE a tecla ESPAÇO e ENTER para mandar um bicão na bola (jogar o dado): ")
 					leia(controleDado)
+
+					enquanto (controleDado != ' ') {
+						escreva("Opa! Jogada errada! Pressione a tecla ESPAÇO e em seguida ENTER: ")
+						leia(controleDado)
+					}
+
+					// Limpa a tela para uma visão individual da rodada
+					limpa()
+					escreva("---> Resultado do ", nomes[pAtual], " (Time ", times[pAtual], ") <---\n")
 
 					// Rola o dado do Portugol (sorteia) de 1 a 6 como ensinado no detalhamento de funções
 					inteiro dado = u.sorteia(1, 6)
+					
+					tocarAudio(casas[pAtual], dado)
+					animarDado(dado)
+					
 					escreva("A bola voou e rolou o dado número: ", dado, "!!!\n")
 					
 					// Soma à posição local que a pessoa estava
@@ -209,9 +286,9 @@ programa
 						escreva("Escolha sua forma de escapar da pressão:\n")
 						escreva(" 1 - Cantar o trecho da música na vida real e ficar parado aqui.\n")
 						escreva(" 2 - Desistir de vergonha e Voltar 2 casas como punição pesada.\n")
-						inteiro decisaoSing
+						caracter decisaoSing
 						leia(decisaoSing)
-						se (decisaoSing == 1) {
+						se (decisaoSing == '1') {
 							escreva("Maravilha! Você soltou a voz presencialmente e a posição foi mantida!\n")
 						} senao {
 							escreva("Pipocou a responsabilidade pra torcida... Punição de fujão. Você recuou 2 casas.\n")
@@ -246,8 +323,11 @@ programa
 					// Tratamento final de Checagem se alguém extrapolou ou atingiu a casa mestre de limite do tabuleiro
 					se (casas[pAtual] >= 25) {
 						casas[pAtual] = 25 // Força ele mostrar "25" apenas pra visual da vitória ficar perfeito
+						
+						exibirTabuleiro(casas[0], casas[1], times[0], times[1])
+
 						escreva("\nGOOOOOOOOLLAAAAAAAAÇOOOOOO! O JUIZ APITA O FIM DA COPA DO MUNDO DE TABULEIRO!! 🏆\n")
-						escreva("O Jogador ", nomes[pAtual], " (Time ", times[pAtual], ") alcançou a casa mestre ", casas[pAtual], " e faturou a Partida!\n")
+						escreva("O ", nomes[pAtual], " (Time ", times[pAtual], ") alcançou a casa mestre ", casas[pAtual], " e faturou a Partida!\n")
 						
 						// Computa a vitória no vencedor apropriado, de forma definitiva à variável solta
 						se (vez == 0) {
@@ -259,14 +339,15 @@ programa
 						// Declara o fim lógico dos dois engate de loop para encerrar a ação
 						partidaEmAndamento = falso
 						turnoValido = falso 
+					} senao se (turnoValido == falso) {
+						// Exibe tabuleiro da situação final se não foi apenas um "jogue de novo" da casa 23
+						exibirTabuleiro(casas[0], casas[1], times[0], times[1])
 					}
 				} // fim loop turno extra (do lance benefício)
 			}
 
 			// Esse if assegura que a rodada passa corretamente apenas repassando as variaveis "vez" enquanto tiver vivo
 			se (partidaEmAndamento == verdadeiro) {
-				escreva("\n== Visão Geral do Juiz: ", nomes[0], " (Casa ", casas[0], ") x ", nomes[1], " (Casa ", casas[1], ") ==\n")
-				
 				// Inversão simples para dar a vez a quem é de direito pela fila
 				se (vez == 0) {
 					vez = 1
@@ -276,5 +357,10 @@ programa
 			}
 			
 		} // fim laço Enquanto gigantesco do tabuleiro rodando
+		
+		escreva("\nPressione qualquer caractere e ENTER para retornar ao menu...")
+		cadeia menuRetorno
+		leia(menuRetorno)
+		limpa()
 	}
 }
