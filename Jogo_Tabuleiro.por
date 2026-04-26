@@ -46,12 +46,24 @@ programa
 				// Opção 2: Mostra quantas vezes cada um ganhou
 				mostrarPlacar()
 			} senao se (opcaoMenu == "3") {
-				// Opção 3: Desliga o jogo
-				escreva("Fim de jogo! Apito final e fim da transmissão!\n")
+				// Opção 3: Desliga o jogo com uma animação especial de encerramento
+				escreva("---------------------------------------------------------\n")
+				escreva("\n\n  FIM DE JOGO! APITO FINAL E FIM DA TRANSMISSÃO!\n\n")
+				escreva("---------------------------------------------------------\n")
+				u.aguarde(950)
+				limpa()
+				u.aguarde(950)
 				executando = falso
 			} senao {
-				// Tratamento caso digitem letras ou números errados
-				mostrarErro("Pênalti! Opção inválida! Escolha 1, 2 ou 3.")
+				// Tratamento caso digitem letras ou números errados com efeito pisca-pisca
+				para (inteiro i = 0; i < 9; i++) {
+					escreva("=========================================================\n")
+					escreva("\n\n  PÊNALTI! OPÇÃO INVÁLIDA ESCOLHA 1, 2 OU 3.\n\n")
+					escreva("---------------------------------------------------------\n")
+					u.aguarde(950)
+					limpa()
+					u.aguarde(950)
+				}
 			}
 		}
 	}
