@@ -258,9 +258,6 @@ programa
 		limpa()
 	}
 
-	funcao tocarAudio(inteiro casa, inteiro dado)
-	{
-	}
 
 	funcao animarDado(inteiro numero)
 	{
@@ -422,7 +419,6 @@ programa
 					limpa()
 					escreva("---> Resultado de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 					
-					tocarAudio(casas[pAtual], dado)
 					animarDado(dado)
 					
 					escreva("A bola voou e rolou o dado número: ", dado, "!!!\n")

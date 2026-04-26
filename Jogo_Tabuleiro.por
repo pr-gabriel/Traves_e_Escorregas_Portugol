@@ -3,7 +3,7 @@ programa
 	inclua biblioteca Util --> u
 	inclua biblioteca Texto --> txt
 	
-	// Variáveis globais
+	// Aqui guardamos os dados principais que duram o campeonato todo
 	inteiro vitoriasJogador1 = 0
 	inteiro vitoriasJogador2 = 0
 	cadeia nomeJogador1 = ""
@@ -12,6 +12,8 @@ programa
 	cadeia timeJogador2 = ""
 	cadeia emojiJogador1 = ""
 	cadeia emojiJogador2 = ""
+	
+	// Modo de Jogo define se é Automático (A), Manual (M) ou Semi (S)
 	cadeia modoJogo = "S"
 
 	funcao inicio()
@@ -19,6 +21,7 @@ programa
 		cadeia opcaoMenu = ""
 		logico executando = verdadeiro
 
+		// Laço principal do Menu. Só sai daqui se o jogador escolher a opção 3
 		enquanto(executando == verdadeiro)
 		{
 			escreva("\n===================================================\n")
@@ -31,24 +34,29 @@ programa
 			escreva("Escolha uma opção: ")
 			leia(opcaoMenu)
 			
-			limpa()
+			limpa() // Limpamos a tela para focar na escolha do jogador
 
 			se (opcaoMenu == "1") {
+				// Opção 1: Configura tudo e, se der certo, começa a partida
 				prepararJogo()
 				se (timeJogador1 != "" e timeJogador2 != "") {
 					jogarPartida()
 				}
 			} senao se (opcaoMenu == "2") {
+				// Opção 2: Mostra quantas vezes cada um ganhou
 				mostrarPlacar()
 			} senao se (opcaoMenu == "3") {
+				// Opção 3: Desliga o jogo
 				escreva("Fim de jogo! Apito final e fim da transmissão!\n")
 				executando = falso
 			} senao {
+				// Tratamento caso digitem letras ou números errados
 				mostrarErro("Pênalti! Opção inválida! Escolha 1, 2 ou 3.")
 			}
 		}
 	}
 
+	// Função simples para mostrar mensagens de erro padronizadas e pausar a tela
 	funcao mostrarErro(cadeia mensagem)
 	{
 		limpa()
@@ -58,12 +66,16 @@ programa
 		limpa()
 	}
 
+	// Verifica se o nome digitado tem símbolos proibidos ou números. 
+	// Só queremos letras normais para deixar o placar bonito.
 	funcao logico nomeInvalido(cadeia nome)
 	{
+		// Nome não pode ser vazio
 		se (txt.numero_caracteres(nome) == 0) {
 			retorne verdadeiro
 		}
 		
+		// Varre letra por letra para barrar caracteres esquisitos
 		cadeia invalidos = "0123456789!@#$%¨&*()_+-=[]{}|\\;:'\",.<>/?°ºª"
 		para (inteiro i = 0; i < txt.numero_caracteres(nome); i++) {
 			cadeia letra = txt.extrair_subtexto(nome, i, i+1)
@@ -74,9 +86,11 @@ programa
 		retorne falso
 	}
 
+	// Essa função cuida de todo o "Pré-jogo": Escolher modo, nomes e times
 	funcao prepararJogo()
 	{
 		logico modoDefinido = falso
+		// 1. ESCOLHA DO MODO DE JOGO
 		enquanto (modoDefinido == falso) {
 			limpa()
 			escreva("\n===================================================\n")
@@ -93,6 +107,7 @@ programa
 			escreva("Digite a letra referencial (A, M ou S): ")
 			leia(modoJogo)
 			
+			// Padroniza para maiúsculo
 			se (modoJogo == "a" ou modoJogo == "A") { modoJogo = "A" modoDefinido = verdadeiro }
 			senao se (modoJogo == "m" ou modoJogo == "M") { modoJogo = "M" modoDefinido = verdadeiro }
 			senao se (modoJogo == "s" ou modoJogo == "S") { modoJogo = "S" modoDefinido = verdadeiro }
@@ -100,6 +115,7 @@ programa
 		}
 
 		limpa()
+		// 2. APRESENTAÇÃO DAS REGRAS
 		escreva("\n===================================================\n")
 		escreva("              📋 VAR INFORMA AS REGRAS 📋            \n")
 		escreva("===================================================\n")
@@ -112,6 +128,7 @@ programa
 		cadeia pausaRegras
 		leia(pausaRegras)
 
+		// 3. COLETA DO NOME DO JOGADOR 1
 		logico nome1Valido = falso
 		enquanto(nome1Valido == falso)
 		{
@@ -128,6 +145,7 @@ programa
 			}
 		}
 
+		// 4. COLETA DO NOME DO JOGADOR 2
 		logico nome2Valido = falso
 		enquanto(nome2Valido == falso)
 		{
@@ -140,12 +158,14 @@ programa
 			se (nomeInvalido(nomeJogador2)) {
 				mostrarErro("O nome não pode ser vazio e não deve conter números ou caracteres especiais.")
 			} senao se (nomeJogador2 == nomeJogador1) {
+				// Evitar nomes duplicados para não confundir de quem é a vez
 				mostrarErro("O nome do Jogador 2 não pode ser igual ao do Jogador 1.")
 			} senao {
 				nome2Valido = verdadeiro
 			}
 		}
 
+		// 5. ESCOLHA DE TIMES (GARANTINDO QUE NÃO ESCOLHAM O MESMO)
 		logico time1Valido = falso
 		logico time2Valido = falso
 
@@ -172,6 +192,7 @@ programa
 			cadeia escolha1
 			leia(escolha1)
 
+			// Associa a escolha ao Nome do Time e seu Emoji
 			se (escolha1 == "1") { timeJogador1 = "Atlético Mineiro" emojiJogador1 = "🐓" time1Valido = verdadeiro }
 			senao se (escolha1 == "2") { timeJogador1 = "Barcelona" emojiJogador1 = "🔵" time1Valido = verdadeiro }
 			senao se (escolha1 == "3") { timeJogador1 = "Brasil de Pelotas" emojiJogador1 = "🐺" time1Valido = verdadeiro }
@@ -213,6 +234,7 @@ programa
 			cadeia tempTime = ""
 			cadeia tempEmoji = ""
 			
+			// Grava a escolha temporariamente para verificar se não é repetida
 			se (escolha2 == "1") { tempTime = "Atlético Mineiro" tempEmoji = "🐓" }
 			senao se (escolha2 == "2") { tempTime = "Barcelona" tempEmoji = "🔵" }
 			senao se (escolha2 == "3") { tempTime = "Brasil de Pelotas" tempEmoji = "🐺" }
@@ -227,6 +249,7 @@ programa
 			senao { mostrarErro("Time inválido! Tente de novo.") }
 
 			se (tempTime != "") {
+				// Impede que o jogador 2 escolha a mesma camisa do jogador 1
 				se (tempTime == timeJogador1) {
 					mostrarErro("Falta! Esse time já foi escolhido pelo Jogador 1. Escolha outro.")
 				} senao {
@@ -240,6 +263,7 @@ programa
 		limpa()
 	}
 
+	// Tela de Placar que busca os dados das variáveis globais
 	funcao mostrarPlacar()
 	{
 		escreva("\n===================================================\n")
@@ -258,10 +282,7 @@ programa
 		limpa()
 	}
 
-	funcao tocarAudio(inteiro casa, inteiro dado)
-	{
-	}
-
+	// Desenha a "imagem" do dado no console de forma simpática, dependendo do número rolado
 	funcao animarDado(inteiro numero)
 	{
 		escreva("\n")
@@ -294,57 +315,63 @@ programa
 		escreva(" +-------+ \n")
 	}
 
+	// Aqui está o coração do visual: A renderização do tabuleiro com as peças em cima
 	funcao exibirTabuleiro(inteiro pos1, inteiro pos2)
 	{
 		escreva("\n--- CAMPO DE JOGO ---\n\n")
 		
 		para (inteiro linha = 0; linha < 5; linha++) {
 			
-			// Linha superior: Posição dos Jogadores (Emojis) flutuando sobre as caixas
+			// Linha 1: Os personagens "flutuando". Verificamos se eles caem nesta mesma linha e coluna
 			para (inteiro col = 1; col <= 5; col++) {
 				inteiro casaCorrente = (linha * 5) + col
 				se (pos1 == casaCorrente e pos2 == casaCorrente) {
+					// Quando os dois jogadores trombam na mesma casa
 					escreva("   ", emojiJogador1, emojiJogador2, "  ")
 				} senao se (pos1 == casaCorrente) {
 					escreva("    ", emojiJogador1, "   ")
 				} senao se (pos2 == casaCorrente) {
 					escreva("    ", emojiJogador2, "   ")
 				} senao {
-					escreva("         ")
+					escreva("         ") // Espaço vazio se não houver ninguém nesta casa
 				}
 			}
 			escreva("\n")
 
-			// Linha de blocos: Números e quadrados coloridos intocáveis
+			// Linha 2: O chão do tabuleiro, com números e cores diferentes dependendo do perigo da casa
 			para (inteiro col = 1; col <= 5; col++) {
 				inteiro casaCorrente = (linha * 5) + col
 				cadeia icone = ""
 				
+				// Definimos as cores das casas baseadas nos eventos secretos delas
 				se (casaCorrente == 1) {
-					icone = "🟨 "
+					icone = "🟨 " // Casa de Início
 				} senao se (casaCorrente == 25) {
-					icone = "🏁 "
+					icone = "🏁 " // Chegada
 				} senao se (casaCorrente == 2 ou casaCorrente == 3 ou casaCorrente == 20 ou casaCorrente == 22 ou casaCorrente == 23) {
-					icone = "🟩 "
+					icone = "🟩 " // Casas Seguras (Verdes)
 				} senao se (casaCorrente == 7 ou casaCorrente == 10 ou casaCorrente == 12 ou casaCorrente == 15 ou casaCorrente == 19 ou casaCorrente == 21 ou casaCorrente == 24) {
-					icone = "🟥 "
+					icone = "🟥 " // Casas de Punição (Vermelhas)
 				} senao {
-					icone = "⬛ "
+					icone = "⬛ " // Casas neutras
 				}
 				
+				// Adiciona um "0" na frente dos números de 1 a 9 para manter o alinhamento reto
 				se (casaCorrente < 10) {
 					escreva("[0", casaCorrente, ":", icone, "] ")
 				} senao {
 					escreva("[", casaCorrente, ":", icone, "] ")
 				}
 			}
-			escreva("\n\n")
+			escreva("\n\n") // Pula linha entre as fileiras de casas
 		}
 		escreva("---------------------\n")
 	}
 
+	// O motor central do jogo: gerencia os turnos, as jogadas de dado e os movimentos!
 	funcao jogarPartida()
 	{
+		// Organizando os dados em vetores (arrays) para acessar com o índice 0 e 1 (referente à "vez" atual)
 		cadeia nomes[2]
 		nomes[0] = nomeJogador1
 		nomes[1] = nomeJogador2
@@ -357,14 +384,17 @@ programa
 		emojis[0] = emojiJogador1
 		emojis[1] = emojiJogador2
 		
+		// Ambos começam no Início (Casa 1)
 		inteiro casas[2]
 		casas[0] = 1
 		casas[1] = 1
 		
+		// Sistema de cartões: guarda rodadas de punição (0 significa livre pra jogar)
 		inteiro penalidades[2]
 		penalidades[0] = 0
 		penalidades[1] = 0
 		
+		// A vez alterna entre 0 (Jogador 1) e 1 (Jogador 2)
 		inteiro vez = 0
 		logico partidaEmAndamento = verdadeiro
 		cadeia controleDado
@@ -374,37 +404,44 @@ programa
 		escreva("Ambos os jogadores iniciam na casa 1.\n")
 		escreva("===================================================\n")
 		
+		// Tira uma "foto" inicial de como está o campo antes do primeiro chute
 		exibirTabuleiro(casas[0], casas[1])
 
 		enquanto(partidaEmAndamento == verdadeiro)
 		{
+			// Variáveis auxiliares para sabermos quem é o ativo e quem é o passivo no turno
 			inteiro pAtual = vez
 			inteiro pAdversario = 1
 			se (vez == 1) {
 				pAdversario = 0
 			}
 
+			// Se o jogador estiver punido (levou cartão ou lesionou), ele pula o turno dele
 			se (penalidades[pAtual] > 0) {
 				escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 				escreva("Você está suspenso pelo juiz e aguarda no banco! (Foi punido e vai perder sua rodada).\n")
-				penalidades[pAtual] = penalidades[pAtual] - 1
+				penalidades[pAtual] = penalidades[pAtual] - 1 // Desconta uma punição e passa a vez
 			} senao {
+				// Se está tudo certo, preparamos a rodada
 				logico turnoValido = verdadeiro
 				
+				// Usamos um laço para o caso dele ganhar uma jogada extra na mesma rodada (ex: casa 23)
 				enquanto (turnoValido == verdadeiro) {
-					turnoValido = falso
+					turnoValido = falso // Por padrão, joga uma vez e acaba
 					
-					// Mostra de quem é o turno abaixo do tabuleiro
 					escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 					
+					// Verifica o modo de jogo para saber como prosseguir
 					se (modoJogo == "A") {
 						escreva("Aguardando o apito do juiz (Automático)...")
-						u.aguarde(4000)
+						u.aguarde(4000) // Dá tempo das pessoas lerem a tela antes do dado cair sozinho
 					} senao {
+						// Pede o "Enter" no modo semi-auto ou manual
 						logico leuDado = falso
 						enquanto (leuDado == falso) {
 							escreva("Pressione apenas ENTER para rolar o dado: ")
 							leia(controleDado)
+							// Trava a rodada se o abençoado digitar texto em vez de só apertar enter
 							se (controleDado != "") {
 								mostrarErro("Opa! Jogada errada! Pressione APENAS a tecla ENTER.")
 								limpa()
@@ -416,20 +453,20 @@ programa
 						}
 					}
 
-					// Fase 1: Sorteio do dado e posição intermediária
+					// ==== FASE 1: ROLAR O DADO E APLICAR O MOVIMENTO BASE ====
 					limpa()
 					escreva("---> Resultado de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 
-					inteiro dado = u.sorteia(1, 6)
-					
-					tocarAudio(casas[pAtual], dado)
+					inteiro dado = u.sorteia(1, 6) // O milagre acontece
 					animarDado(dado)
 					
 					escreva("A bola voou e rolou o dado número: ", dado, "!!!\n")
 					
+					// Anda as casas
 					casas[pAtual] = casas[pAtual] + dado
 					inteiro casaDestino = casas[pAtual]
 					
+					// Bate no muro da vitória e trava o número em 25
 					se (casaDestino >= 25) {
 						casaDestino = 25
 						casas[pAtual] = 25
@@ -437,11 +474,14 @@ programa
 						escreva("Correndo você alcançou a casa ", casaDestino, ".\n")
 					}
 
+					// ==== FASE 2: VERIFICAR EVENTOS DE CAMPO (CASAS ESPECIAIS) ====
 					logico temConsequencia = falso
+					// Mapeamento de todas as casas que possuem efeitos secretos
 					se (casaDestino == 2 ou casaDestino == 3 ou casaDestino == 7 ou casaDestino == 10 ou casaDestino == 12 ou casaDestino == 15 ou casaDestino == 19 ou casaDestino == 20 ou casaDestino == 21 ou casaDestino == 22 ou casaDestino == 23 ou casaDestino == 24) {
 						temConsequencia = verdadeiro
 					}
 
+					// Só aplicamos a consequência se o jogador não chegou ainda no fim (25)
 					se (temConsequencia e casas[pAtual] < 25) {
 						escreva("\nEssa casa possui um evento oculto! Revelando as regras...")
 						se (modoJogo == "M") {
@@ -451,10 +491,10 @@ programa
 							u.aguarde(5000)
 						}
 
-						// Fase 2: Mostrar apenas o tabuleiro e a consequência da casa
 						limpa()
 						exibirTabuleiro(casas[0], casas[1])
 
+						// Aqui moram as regras e o caos. Checamos qual casa ele pisou e aplicamos:
 						se (casaDestino == 2) {
 							escreva("[CASA 2] Bônus: Falta perigosa! O juiz ajustou a barreira. Avance magicamente para a casa 5.\n")
 							casas[pAtual] = 5
@@ -477,6 +517,7 @@ programa
 							escreva("[CASA 12] Punição: Impedimento! Volte 1 casa.\n")
 							casas[pAtual] = casas[pAtual] - 1
 						} senao se (casaDestino == 15) {
+							// Desafio presencial super engraçado
 							escreva("[CASA 15] Punição: Pênalti pra fora do estádio! E para se redimir, cante uma música na vida real!\n")
 							escreva("Escolha sua forma de escapar da pressão:\n")
 							escreva(" 1 - Cantar presencialmente e manter a posição.\n")
@@ -519,7 +560,7 @@ programa
 							casas[pAtual] = 24
 						} senao se (casaDestino == 23) {
 							escreva("[CASA 23] Bônus: Pênalti no escanteio! Jogue o dado de novo AGORA!\n")
-							turnoValido = verdadeiro
+							turnoValido = verdadeiro // Aqui faz o laço se repetir pra ele jogar duas vezes!
 						} senao se (casaDestino == 24) {
 							escreva("[CASA 24] Punição: Bola quebra as pernas mas NÃO ENTRA! Fique 1 rodada no chão.\n")
 							penalidades[pAtual] = 1
@@ -533,7 +574,7 @@ programa
 							u.aguarde(7000)
 						}
                         
-						// Fase 3: Retornar ao log Normal restaurado no fim da consequência
+						// ==== FASE 3: RESUMO DE FIM DE TURNO ====
 						limpa()
 						escreva("---> Resultado de ", nomes[pAtual], " (Atualizado) <---\n")
 						animarDado(dado)
@@ -547,6 +588,7 @@ programa
 							u.aguarde(5500)
 						}
 					} senao se (casas[pAtual] < 25) {
+						// Jogada normal sem interrupções e regras loucas
 						escreva("\nJogada limpa! Nenhuma regra especial na casa ", casaDestino, ".\n")
 						se (modoJogo == "M") {
 							escreva("\n(Modo Manual) Pressione ENTER para continuar...")
@@ -556,21 +598,24 @@ programa
 						}
 					}
 
+					// ==== FASE 4: CHECAGEM DO GRANDE VENCEDOR ====
 					se (casas[pAtual] >= 25) {
 						casas[pAtual] = 25
 						
 						limpa()
-						exibirTabuleiro(casas[0], casas[1])
+						exibirTabuleiro(casas[0], casas[1]) // Tira a última "foto" do campo
 
 						escreva("\nGOOOOOOOOLLAAAAAAAAÇOOOOOO! O JUIZ APITA O FIM DA COPA DO MUNDO DE TABULEIRO!! 🏆\n")
 						escreva("O ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") alcançou a casa mestre ", casas[pAtual], " e faturou a Partida!\n")
 						
+						// Adiciona a cobiçada taça pro vencedor no placar geral
 						se (vez == 0) {
 							vitoriasJogador1 = vitoriasJogador1 + 1
 						} senao {
 							vitoriasJogador2 = vitoriasJogador2 + 1
 						}
 						
+						// Desativa as flags para que o jogo volte pro menu no fim do laço
 						partidaEmAndamento = falso
 						turnoValido = falso 
 
@@ -579,15 +624,17 @@ programa
 						leia(menuRetorno)
 						limpa()
 
+						// Um show especial de encerramento!
 						animarVitoria(nomes[pAtual], times[pAtual], emojis[pAtual])
 
 					} senao {
-						// Finalização do turno, exibe para o próximo jogador visualizar onde o PAtual parou
+						// Finalização do turno convencional, exibe para o próximo jogador visualizar a situação atual do campo
 						exibirTabuleiro(casas[0], casas[1])
 					}
 				} 
 			}
 
+			// Passagem do bastão da rodada: de 0 vira 1, de 1 vira 0.
 			se (partidaEmAndamento == verdadeiro) {
 				se (vez == 0) {
 					vez = 1
@@ -599,13 +646,13 @@ programa
 		} 
 	}
 
+	// Faz um show de arte ASCII animada no console para levantar o ânimo do vencedor
 	funcao animarVitoria(cadeia nome, cadeia time, cadeia emoji)
 	{
 		inteiro animacao
 		para (animacao = 0; animacao < 4; animacao++) {
 
 //Frame 1
-
 escreva("\n_________________________________________________________________________________________________ ")
 escreva("\n                                                                                                 |")
 escreva("\n                                                                                                 |")
@@ -637,10 +684,9 @@ escreva("\n_____________________________________________________________________
 escreva("\n                                                                                                  ")
 escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 			u.aguarde(500)
-limpa()
+			limpa()
 
 //Frame 2
-
 escreva("\n_________________________________________________________________________________________________ ")
 escreva("\n                                                                                                 |")
 escreva("\n                                                                                                 |")
@@ -672,10 +718,9 @@ escreva("\n_____________________________________________________________________
 escreva("\n                                                                                                  ")
 escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 			u.aguarde(500)
-limpa()
+			limpa()
 
 //Frame 3
-
 escreva("\n_________________________________________________________________________________________________ ")
 escreva("\n                                                                                                 |")
 escreva("\n                                                                                                 |")
@@ -707,10 +752,9 @@ escreva("\n_____________________________________________________________________
 escreva("\n                                                                                                  ")
 escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 			u.aguarde(500)
-limpa()
+			limpa()
 
 //Frame 4
-
 escreva("\n_________________________________________________________________________________________________ ")
 escreva("\n                                                                                                 |")
 escreva("\n                                                                                                 |")
@@ -742,6 +786,8 @@ escreva("\n_____________________________________________________________________
 escreva("\n                                                                                                  ")
 escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 			u.aguarde(500)
+			
+			// Quando rodar as animações todas, segura a tela na última pra ele celebrar e voltar
 			se (animacao < 3) {
 				limpa()
 			} senao {
@@ -750,7 +796,6 @@ escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 				leia(fimFesta)
 				limpa()
 			}
-    }
-  }
+		}
 	}
 }
