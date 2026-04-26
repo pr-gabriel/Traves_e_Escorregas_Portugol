@@ -12,6 +12,7 @@ programa
 	cadeia timeJogador2 = ""
 	cadeia emojiJogador1 = ""
 	cadeia emojiJogador2 = ""
+	cadeia modoJogo = "S"
 
 	funcao inicio()
 	{
@@ -21,11 +22,11 @@ programa
 		enquanto(executando == verdadeiro)
 		{
 			escreva("\n===================================================\n")
-			escreva("⚽ CAMPEONATO DE FUTEBOL DE TABULEIRO ⚽\n")
+			escreva("       ⚽ CAMPEONATO DE FUTEBOL DE TABULEIRO ⚽      \n")
 			escreva("===================================================\n")
-			escreva("1. Jogar (Dar o pontapé inicial!)\n")
-			escreva("2. Verificar Placar (Tabela do Campeonato)\n")
-			escreva("3. Fechar o jogo (Ir para o vestiário)\n")
+			escreva("  1. 🏆 Jogar (Dar o pontapé inicial!)\n")
+			escreva("  2. 📊 Verificar Placar (Tabela do Campeonato)\n")
+			escreva("  3. 🚪 Fechar o jogo (Ir para o vestiário)\n")
 			escreva("===================================================\n")
 			escreva("Escolha uma opção: ")
 			leia(opcaoMenu)
@@ -75,12 +76,39 @@ programa
 
 	funcao prepararJogo()
 	{
-		escreva("\n--- PREPARAÇÃO PARA O JOGO ---\n")
-		escreva("REGRAS DO JOGO:\n")
-		escreva("- O percurso vai da casa 1 à casa 25.\n")
-		escreva("- O primeiro jogador a alcançar a casa final vence.\n")
-		escreva("- O dado possui 6 lados, mas durante a trajetória, as casas ativam lances de futebol (bônus ou punições).\n\n")
-		escreva("Pressione ENTER para continuar para a escolha dos nomes...")
+		logico modoDefinido = falso
+		enquanto (modoDefinido == falso) {
+			limpa()
+			escreva("\n===================================================\n")
+			escreva("              ⚽ MODO DE COMPETIÇÃO 🏆               \n")
+			escreva("===================================================\n")
+			escreva("Antes de rolar a bola, escolha o ritmo da partida:\n\n")
+			escreva(" [A] Automático: Sem interrupções (Nota: O dado neste\n")
+			escreva("     modo Debug continuará sendo digitado manualmente).\n")
+			escreva(" [M] Manual: Você controla tudo! Exige apertar ENTER\n")
+			escreva("     para jogar os dados e para fechar mensagens.\n")
+			escreva(" [S] Semi-Automático: Requer tocar no ENTER para \n")
+			escreva("     rolar, mas as mensagens fecham sozinhas.\n")
+			escreva("===================================================\n")
+			escreva("Digite a letra referencial (A, M ou S): ")
+			leia(modoJogo)
+			
+			se (modoJogo == "a" ou modoJogo == "A") { modoJogo = "A" modoDefinido = verdadeiro }
+			senao se (modoJogo == "m" ou modoJogo == "M") { modoJogo = "M" modoDefinido = verdadeiro }
+			senao se (modoJogo == "s" ou modoJogo == "S") { modoJogo = "S" modoDefinido = verdadeiro }
+			senao { mostrarErro("Falta! Opção inválida. Escolha A, M ou S.") }
+		}
+
+		limpa()
+		escreva("\n===================================================\n")
+		escreva("              📋 VAR INFORMA AS REGRAS 📋            \n")
+		escreva("===================================================\n")
+		escreva(" - O percurso vai da casa 1 à casa 25.\n")
+		escreva(" - O primeiro jogador a alcançar a casa final vence.\n")
+		escreva(" - O dado possui 6 lados, mas durante a trajetória,\n")
+		escreva("   as casas ativam lances de futebol (bônus/punição).\n")
+		escreva("===================================================\n\n")
+		escreva("Pressione ENTER para continuar para a escalação...\n\n")
 		cadeia pausaRegras
 		leia(pausaRegras)
 
@@ -88,6 +116,9 @@ programa
 		enquanto(nome1Valido == falso)
 		{
 			limpa()
+			escreva("\n===================================================\n")
+			escreva("               ✍️ ESCALAÇÃO DOS ATLETAS               \n")
+			escreva("===================================================\n")
 			escreva("Digite o nome do Jogador 1 (apenas letras): ")
 			leia(nomeJogador1)
 			se (nomeInvalido(nomeJogador1)) {
@@ -101,6 +132,9 @@ programa
 		enquanto(nome2Valido == falso)
 		{
 			limpa()
+			escreva("\n===================================================\n")
+			escreva("               ✍️ ESCALAÇÃO DOS ATLETAS               \n")
+			escreva("===================================================\n")
 			escreva("Digite o nome do Jogador 2 (apenas letras): ")
 			leia(nomeJogador2)
 			se (nomeInvalido(nomeJogador2)) {
@@ -118,8 +152,10 @@ programa
 		enquanto(time1Valido == falso)
 		{
 			limpa()
-			escreva("---> VEZ DO JOGADOR 1: ", nomeJogador1, " <---\n")
-			escreva("Lista de times para escolher:\n\n")
+			escreva("\n===================================================\n")
+			escreva("               👕 VESTIÁRIO DOS TIMES                 \n")
+			escreva("===================================================\n")
+			escreva("---> ELENCO DO JOGADOR 1: ", nomeJogador1, " <---\n")
 			escreva(" 1 - Atlético Mineiro (🐓)\n")
 			escreva(" 2 - Barcelona (🔵)\n")
 			escreva(" 3 - Brasil de Pelotas (🐺)\n")
@@ -131,6 +167,7 @@ programa
 			escreva(" 9 - Palmeiras (🐷)\n")
 			escreva("10 - Real Madrid (👑)\n")
 			escreva("11 - São Paulo (🔴)\n")
+			escreva("===================================================\n")
 			escreva("\nDigite o número do time escolhido: ")
 			cadeia escolha1
 			leia(escolha1)
@@ -152,7 +189,10 @@ programa
 		enquanto(time2Valido == falso)
 		{
 			limpa()
-			escreva("---> VEZ DO JOGADOR 2: ", nomeJogador2, " <---\n")
+			escreva("\n===================================================\n")
+			escreva("               👕 VESTIÁRIO DOS TIMES                 \n")
+			escreva("===================================================\n")
+			escreva("---> ELENCO DO JOGADOR 2: ", nomeJogador2, " <---\n")
 			escreva("Lista de times para escolher (exceto ", timeJogador1, "):\n\n")
 			escreva(" 1 - Atlético Mineiro (🐓)\n")
 			escreva(" 2 - Barcelona (🔵)\n")
@@ -165,6 +205,7 @@ programa
 			escreva(" 9 - Palmeiras (🐷)\n")
 			escreva("10 - Real Madrid (👑)\n")
 			escreva("11 - São Paulo (🔴)\n")
+			escreva("===================================================\n")
 			escreva("\nDigite o número do time escolhido: ")
 			cadeia escolha2
 			leia(escolha2)
@@ -403,7 +444,12 @@ programa
 
 					se (temConsequencia e casas[pAtual] < 25) {
 						escreva("\nEssa casa possui um evento oculto! Revelando as regras...")
-						u.aguarde(3000)
+						se (modoJogo == "M") {
+							escreva("\n\n(Modo Manual) Pressione ENTER para descobrir...")
+							leia(controleDado)
+						} senao {
+							u.aguarde(3000)
+						}
 
 						// Fase 2: Mostrar apenas o tabuleiro e a consequência da casa
 						limpa()
@@ -480,7 +526,12 @@ programa
 						}
 
 						escreva("\nAplicando os efeitos no tabuleiro...")
-						u.aguarde(4500)
+						se (modoJogo == "M") {
+							escreva("\n(Modo Manual) Pressione ENTER para concluir o processamento da regra...")
+							leia(controleDado)
+						} senao {
+							u.aguarde(4500)
+						}
                         
 						// Fase 3: Retornar ao log Normal restaurado no fim da consequência
 						limpa()
