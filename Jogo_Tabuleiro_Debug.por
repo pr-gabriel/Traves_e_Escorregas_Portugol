@@ -354,27 +354,32 @@ programa
 					turnoValido = falso
 					
 					// Mostra de quem é o turno abaixo do tabuleiro
-					escreva("---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
+					escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 					
+					inteiro dado = 0
 					logico leuDado = falso
 					enquanto (leuDado == falso) {
-						escreva("Pressione apenas ENTER para rolar o dado: ")
-						leia(controleDado)
-						se (controleDado != "") {
-							mostrarErro("Opa! Jogada errada! Pressione APENAS a tecla ENTER.")
-							limpa()
-							exibirTabuleiro(casas[0], casas[1])
-							escreva("---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
-						} senao {
+						escreva("MODO DEBUG - Digite o número forçado do dado (1 a 6): ")
+						cadeia debug_str
+						leia(debug_str)
+						se (debug_str == "1" ou debug_str == "2" ou debug_str == "3" ou debug_str == "4" ou debug_str == "5" ou debug_str == "6") {
+							se (debug_str == "1") { dado = 1 }
+							senao se (debug_str == "2") { dado = 2 }
+							senao se (debug_str == "3") { dado = 3 }
+							senao se (debug_str == "4") { dado = 4 }
+							senao se (debug_str == "5") { dado = 5 }
+							senao se (debug_str == "6") { dado = 6 }
 							leuDado = verdadeiro
+						} senao {
+							mostrarErro("Opa! Digite apenas números de 1 a 6 no modo Debug.")
+							exibirTabuleiro(casas[0], casas[1])
+							escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 						}
 					}
 
 					// Fase 1: Sorteio do dado e posição intermediária
 					limpa()
 					escreva("---> Resultado de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
-
-					inteiro dado = u.sorteia(1, 6)
 					
 					tocarAudio(casas[pAtual], dado)
 					animarDado(dado)
@@ -438,12 +443,12 @@ programa
 								se (decisaoSing == "1") {
 									escreva("Maravilha! Você soltou a voz presencialmente e a posição foi mantida!\n")
 									escolheuMusica = verdadeiro
-									u.aguarde(2000)
+									u.aguarde(2500)
 								} senao se (decisaoSing == "2") {
 									escreva("Pipocou a responsabilidade pra torcida... Você recuou 2 casas.\n")
 									casas[pAtual] = casas[pAtual] - 2
 									escolheuMusica = verdadeiro
-									u.aguarde(2000)
+									u.aguarde(2500)
 								} senao {
 									mostrarErro("Opção inválida! Escolha 1 ou 2.")
 									limpa()
