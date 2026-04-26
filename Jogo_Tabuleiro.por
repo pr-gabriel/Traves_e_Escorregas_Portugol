@@ -1,166 +1,645 @@
 programa
 {
 	inclua biblioteca Util --> u
-
-	funcao inteiro jogarDado() {
-		inteiro dado 
-
-		dado = u.sorteia(1,6) //2
-		retorne dado // 2
-	}
-
+	inclua biblioteca Texto --> txt
 	
-	
-	funcao jogarPartida() {
+	// Variáveis globais
+	inteiro vitoriasJogador1 = 0
+	inteiro vitoriasJogador2 = 0
+	cadeia nomeJogador1 = ""
+	cadeia nomeJogador2 = ""
+	cadeia timeJogador1 = ""
+	cadeia timeJogador2 = ""
+	cadeia emojiJogador1 = ""
+	cadeia emojiJogador2 = ""
 
-		//Jogadores são apresentados ao jogo
-		
-			cadeia nomeJogador1
-			cadeia nomeJogador2
-			inteiro casaJogador1 = 1
-			inteiro casaJogador2 = 1
-			inteiro vitoriasJogador1 = 0
-			inteiro vitoriasJogador2 = 0
-			inteiro jogadorAtual = 1
-			inteiro op = 0
-			
-
-			escreva("Antes de começar, precisamos que informe seus nomes!\n")
-			escreva("Jogador 1, informe seu nome: \n")
-			leia(nomeJogador1)
-			escreva("Jogador 2, informe seu nome: \n")
-			leia(nomeJogador2)
-
-			escreva("\n \nSejam bem vindos " + nomeJogador1 + " e " + nomeJogador2 + "\n \n")
-			escreva("Os jogadores irão iniciar a partida na casa 1\n \n")
-
-		//loop para rodar ate alcancar a casa desejada
-			enquanto (casaJogador1 <= 20 e casaJogador2 <= 20) {
-
-				inteiro numSorteado = jogarDado() // 2
-
-				se(jogadorAtual == 1) {
-
-	
-					escreva(nomeJogador1 + " escolha uma opcao \n")
-					escreva(" 1 - jogar dado \n 2 - Ver placar \n 3 - Sair \n")
-					leia(op)
-					
-					se(op == 1){
-					escreva("\n" + nomeJogador1 + " jogou o dado, número sorteado: " + numSorteado + "\n")
-					casaJogador1 = casaJogador1 + numSorteado
-					escreva(nomeJogador1 + " você está na casa " + casaJogador1 + "\n\n")
-
-					se(casaJogador1 == 2) {
-						
-						escreva("Que baita sorte! Você avançara para a casa 5\n")
-						casaJogador1 = 5
-						escreva(nomeJogador1 + " agora você está na casa " + casaJogador1 + "\n\n")
-					}
-				}
-
-				
-				senao se(op == 2 ){
-					escreva("Funcao indisponivel!")
-					}
-					
-					jogadorAtual = 2
-				} 
-
-
-				// bloco 2 abaixo
-
-				
-				senao {
-
-					escreva(nomeJogador2 + " escolha uma opcao \n")
-					escreva(" 1 - jogar dado \n 2 - Ver placar \n 3 - Sair \n")
-					leia(op)
-					
-					se(op == 1){
-					escreva("\n" + nomeJogador2 + " jogou o dado, número sorteado: " + numSorteado + "\n")
-					casaJogador2 = casaJogador2 + numSorteado
-					escreva(nomeJogador2 + " você está na casa " + casaJogador2 + "\n\n")
-					
-
-					se(casaJogador1 == 2) {
-						
-						escreva("Que baita sorte! Você avançara para a casa 5\n")
-						casaJogador1 = 5
-						escreva(nomeJogador1 + " agora você está na casa " + casaJogador1 + "\n\n")
-					}
-				}
-
-					jogadorAtual = 1
-					
-				}	
-			}
-
-			
-
-			
-	}
-			
-
-
-		
-	
 	funcao inicio()
 	{
-		inteiro opcaoEscolhida = 0
-		logico rep = verdadeiro
-		inteiro casaJogador1 = 1, casaJogador2 = 1
+		cadeia opcaoMenu = ""
+		logico executando = verdadeiro
 
-		//Lógica do menu do jogo
-		// quando o user escolher uma opcao válida, rep se torna falso para sair do laco
-		// quando o user escolher um valor negativo ou maior que 3, ocorrer um erro
-		// o loop continua ate que o user digite um valor valido
-
-		enquanto(rep == verdadeiro) {
+		enquanto(executando == verdadeiro)
+		{
+			escreva("\n===================================================\n")
+			escreva("⚽ CAMPEONATO DE FUTEBOL DE TABULEIRO ⚽\n")
+			escreva("===================================================\n")
+			escreva("1. Jogar (Dar o pontapé inicial!)\n")
+			escreva("2. Verificar Placar (Tabela do Campeonato)\n")
+			escreva("3. Fechar o jogo (Ir para o vestiário)\n")
+			escreva("===================================================\n")
+			escreva("Escolha uma opção: ")
+			leia(opcaoMenu)
 			
-		escreva("Digite uma opção: \n")
-		escreva(" 1 - Jogar \n 2 - Consultar placar \n 3 - Sair \n")
-		leia(opcaoEscolhida)
+			limpa()
 
-		se (opcaoEscolhida == 1) {
-			escreva("A opção escolhida foi a 1\n")
-			jogarPartida()
-			
-
-			
-			rep = falso
+			se (opcaoMenu == "1") {
+				prepararJogo()
+				se (timeJogador1 != "" e timeJogador2 != "") {
+					jogarPartida()
+				}
+			} senao se (opcaoMenu == "2") {
+				mostrarPlacar()
+			} senao se (opcaoMenu == "3") {
+				escreva("Fim de jogo! Apito final e fim da transmissão!\n")
+				executando = falso
+			} senao {
+				mostrarErro("Pênalti! Opção inválida! Escolha 1, 2 ou 3.")
+			}
 		}
-
-		senao se (opcaoEscolhida == 2) {
-			escreva("A opção escolhida foi a 2\n")
-			rep = falso
-		}
-
-		senao se (opcaoEscolhida == 3) {
-			escreva("A opção escolhida foi a 3\n")
-			rep = falso
-		}
-
-		senao {
-			escreva("ERRO! Por favor escolha uma opção válida! \n")
-			rep = verdadeiro
-		}
-
-		
-		}
-	
 	}
 
-	
+	funcao mostrarErro(cadeia mensagem)
+	{
+		limpa()
+		escreva("❌ ERRO: ", mensagem, "\n\nPressione ENTER para voltar...")
+		cadeia pausa
+		leia(pausa)
+		limpa()
+	}
+
+	funcao logico nomeInvalido(cadeia nome)
+	{
+		se (txt.numero_caracteres(nome) == 0) {
+			retorne verdadeiro
+		}
+		
+		cadeia invalidos = "0123456789!@#$%¨&*()_+-=[]{}|\\;:'\",.<>/?°ºª"
+		para (inteiro i = 0; i < txt.numero_caracteres(nome); i++) {
+			cadeia letra = txt.extrair_subtexto(nome, i, i+1)
+			se (txt.posicao_texto(letra, invalidos, 0) >= 0) {
+				retorne verdadeiro
+			}
+		}
+		retorne falso
+	}
+
+	funcao prepararJogo()
+	{
+		escreva("\n--- PREPARAÇÃO PARA O JOGO ---\n")
+		escreva("REGRAS DO JOGO:\n")
+		escreva("- O percurso vai da casa 1 à casa 25.\n")
+		escreva("- O primeiro jogador a alcançar a casa final vence.\n")
+		escreva("- O dado possui 6 lados, mas durante a trajetória, as casas ativam lances de futebol (bônus ou punições).\n\n")
+		escreva("Pressione ENTER para continuar para a escolha dos nomes...")
+		cadeia pausaRegras
+		leia(pausaRegras)
+
+		logico nome1Valido = falso
+		enquanto(nome1Valido == falso)
+		{
+			limpa()
+			escreva("Digite o nome do Jogador 1 (apenas letras): ")
+			leia(nomeJogador1)
+			se (nomeInvalido(nomeJogador1)) {
+				mostrarErro("O nome não pode ser vazio e não deve conter números ou caracteres especiais.")
+			} senao {
+				nome1Valido = verdadeiro
+			}
+		}
+
+		logico nome2Valido = falso
+		enquanto(nome2Valido == falso)
+		{
+			limpa()
+			escreva("Digite o nome do Jogador 2 (apenas letras): ")
+			leia(nomeJogador2)
+			se (nomeInvalido(nomeJogador2)) {
+				mostrarErro("O nome não pode ser vazio e não deve conter números ou caracteres especiais.")
+			} senao se (nomeJogador2 == nomeJogador1) {
+				mostrarErro("O nome do Jogador 2 não pode ser igual ao do Jogador 1.")
+			} senao {
+				nome2Valido = verdadeiro
+			}
+		}
+
+		logico time1Valido = falso
+		logico time2Valido = falso
+
+		enquanto(time1Valido == falso)
+		{
+			limpa()
+			escreva("---> VEZ DO JOGADOR 1: ", nomeJogador1, " <---\n")
+			escreva("Lista de times para escolher:\n\n")
+			escreva(" 1 - Atlético Mineiro (🐓)\n")
+			escreva(" 2 - Barcelona (🔵)\n")
+			escreva(" 3 - Brasil de Pelotas (🐺)\n")
+			escreva(" 4 - Chapecoense (🏹)\n")
+			escreva(" 5 - Cruzeiro (🦊)\n")
+			escreva(" 6 - Flamengo (🦅)\n")
+			escreva(" 7 - Fluminense (🛡️)\n")
+			escreva(" 8 - Grêmio (🇪🇪)\n")
+			escreva(" 9 - Palmeiras (🐷)\n")
+			escreva("10 - Real Madrid (👑)\n")
+			escreva("11 - São Paulo (🔴)\n")
+			escreva("\nDigite o número do time escolhido: ")
+			cadeia escolha1
+			leia(escolha1)
+
+			se (escolha1 == "1") { timeJogador1 = "Atlético Mineiro" emojiJogador1 = "🐓" time1Valido = verdadeiro }
+			senao se (escolha1 == "2") { timeJogador1 = "Barcelona" emojiJogador1 = "🔵" time1Valido = verdadeiro }
+			senao se (escolha1 == "3") { timeJogador1 = "Brasil de Pelotas" emojiJogador1 = "🐺" time1Valido = verdadeiro }
+			senao se (escolha1 == "4") { timeJogador1 = "Chapecoense" emojiJogador1 = "🏹" time1Valido = verdadeiro }
+			senao se (escolha1 == "5") { timeJogador1 = "Cruzeiro" emojiJogador1 = "🦊" time1Valido = verdadeiro }
+			senao se (escolha1 == "6") { timeJogador1 = "Flamengo" emojiJogador1 = "🦅" time1Valido = verdadeiro }
+			senao se (escolha1 == "7") { timeJogador1 = "Fluminense" emojiJogador1 = "🛡️" time1Valido = verdadeiro }
+			senao se (escolha1 == "8") { timeJogador1 = "Grêmio" emojiJogador1 = "🇪🇪" time1Valido = verdadeiro }
+			senao se (escolha1 == "9") { timeJogador1 = "Palmeiras" emojiJogador1 = "🐷" time1Valido = verdadeiro }
+			senao se (escolha1 == "10") { timeJogador1 = "Real Madrid" emojiJogador1 = "👑" time1Valido = verdadeiro }
+			senao se (escolha1 == "11") { timeJogador1 = "São Paulo" emojiJogador1 = "🔴" time1Valido = verdadeiro }
+			senao { mostrarErro("Time inválido! Você chutou pra fora. Digite um número de 1 a 11.") }
+		}
+
+		enquanto(time2Valido == falso)
+		{
+			limpa()
+			escreva("---> VEZ DO JOGADOR 2: ", nomeJogador2, " <---\n")
+			escreva("Lista de times para escolher (exceto ", timeJogador1, "):\n\n")
+			escreva(" 1 - Atlético Mineiro (🐓)\n")
+			escreva(" 2 - Barcelona (🔵)\n")
+			escreva(" 3 - Brasil de Pelotas (🐺)\n")
+			escreva(" 4 - Chapecoense (🏹)\n")
+			escreva(" 5 - Cruzeiro (🦊)\n")
+			escreva(" 6 - Flamengo (🦅)\n")
+			escreva(" 7 - Fluminense (🛡️)\n")
+			escreva(" 8 - Grêmio (🇪🇪)\n")
+			escreva(" 9 - Palmeiras (🐷)\n")
+			escreva("10 - Real Madrid (👑)\n")
+			escreva("11 - São Paulo (🔴)\n")
+			escreva("\nDigite o número do time escolhido: ")
+			cadeia escolha2
+			leia(escolha2)
+
+			cadeia tempTime = ""
+			cadeia tempEmoji = ""
+			
+			se (escolha2 == "1") { tempTime = "Atlético Mineiro" tempEmoji = "🐓" }
+			senao se (escolha2 == "2") { tempTime = "Barcelona" tempEmoji = "🔵" }
+			senao se (escolha2 == "3") { tempTime = "Brasil de Pelotas" tempEmoji = "🐺" }
+			senao se (escolha2 == "4") { tempTime = "Chapecoense" tempEmoji = "🏹" }
+			senao se (escolha2 == "5") { tempTime = "Cruzeiro" tempEmoji = "🦊" }
+			senao se (escolha2 == "6") { tempTime = "Flamengo" tempEmoji = "🦅" }
+			senao se (escolha2 == "7") { tempTime = "Fluminense" tempEmoji = "🛡️" }
+			senao se (escolha2 == "8") { tempTime = "Grêmio" tempEmoji = "🇪🇪" }
+			senao se (escolha2 == "9") { tempTime = "Palmeiras" tempEmoji = "🐷" }
+			senao se (escolha2 == "10") { tempTime = "Real Madrid" tempEmoji = "👑" }
+			senao se (escolha2 == "11") { tempTime = "São Paulo" tempEmoji = "🔴" }
+			senao { mostrarErro("Time inválido! Tente de novo.") }
+
+			se (tempTime != "") {
+				se (tempTime == timeJogador1) {
+					mostrarErro("Falta! Esse time já foi escolhido pelo Jogador 1. Escolha outro.")
+				} senao {
+					timeJogador2 = tempTime
+					emojiJogador2 = tempEmoji
+					time2Valido = verdadeiro
+				}
+			}
+		}
+		
+		limpa()
+	}
+
+	funcao mostrarPlacar()
+	{
+		escreva("\n===================================================\n")
+		escreva("🏆 PLACAR GERAL DO CAMPEONATO🏆\n")
+		escreva("===================================================\n")
+		se (timeJogador1 != "") {
+			escreva("Jogador 1: ", nomeJogador1, " (Time ", timeJogador1, " ", emojiJogador1, "): ", vitoriasJogador1, " vitória(s)\n")
+			escreva("Jogador 2: ", nomeJogador2, " (Time ", timeJogador2, " ", emojiJogador2, "): ", vitoriasJogador2, " vitória(s)\n")
+		} senao {
+			escreva("A temporada ainda não iniciou! Jogue a primeira partida e volte aqui.\n")
+		}
+		escreva("===================================================\n\n")
+		escreva("Pressione ENTER para voltar...")
+		cadeia pausa
+		leia(pausa)
+		limpa()
+	}
+
+	funcao tocarAudio(inteiro casa, inteiro dado)
+	{
+	}
+
+	funcao animarDado(inteiro numero)
+	{
+		escreva("\n")
+		escreva(" +-------+ \n")
+		se (numero == 1) { 
+			escreva(" |       | \n")
+			escreva(" |   .   | \n")
+			escreva(" |       | \n")
+		} senao se (numero == 2) { 
+			escreva(" | .     | \n")
+			escreva(" |       | \n")
+			escreva(" |     . | \n")
+		} senao se (numero == 3) { 
+			escreva(" | .     | \n")
+			escreva(" |   .   | \n")
+			escreva(" |     . | \n")
+		} senao se (numero == 4) { 
+			escreva(" | .   . | \n")
+			escreva(" |       | \n")
+			escreva(" | .   . | \n")
+		} senao se (numero == 5) { 
+			escreva(" | .   . | \n")
+			escreva(" |   .   | \n")
+			escreva(" | .   . | \n")
+		} senao se (numero == 6) { 
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
+		}
+		escreva(" +-------+ \n")
+	}
+
+	funcao exibirTabuleiro(inteiro pos1, inteiro pos2)
+	{
+		escreva("\n--- CAMPO DE JOGO ---\n\n")
+		
+		para (inteiro linha = 0; linha < 5; linha++) {
+			
+			// Linha superior: Posição dos Jogadores (Emojis) flutuando sobre as caixas
+			para (inteiro col = 1; col <= 5; col++) {
+				inteiro casaCorrente = (linha * 5) + col
+				se (pos1 == casaCorrente e pos2 == casaCorrente) {
+					escreva("   ", emojiJogador1, emojiJogador2, "  ")
+				} senao se (pos1 == casaCorrente) {
+					escreva("    ", emojiJogador1, "   ")
+				} senao se (pos2 == casaCorrente) {
+					escreva("    ", emojiJogador2, "   ")
+				} senao {
+					escreva("         ")
+				}
+			}
+			escreva("\n")
+
+			// Linha de blocos: Números e quadrados coloridos intocáveis
+			para (inteiro col = 1; col <= 5; col++) {
+				inteiro casaCorrente = (linha * 5) + col
+				cadeia icone = ""
+				
+				se (casaCorrente == 1) {
+					icone = "🟨 "
+				} senao se (casaCorrente == 25) {
+					icone = "🏁 "
+				} senao se (casaCorrente == 2 ou casaCorrente == 3 ou casaCorrente == 20 ou casaCorrente == 22 ou casaCorrente == 23) {
+					icone = "🟩 "
+				} senao se (casaCorrente == 7 ou casaCorrente == 10 ou casaCorrente == 12 ou casaCorrente == 15 ou casaCorrente == 19 ou casaCorrente == 21 ou casaCorrente == 24) {
+					icone = "🟥 "
+				} senao {
+					icone = "⬛ "
+				}
+				
+				se (casaCorrente < 10) {
+					escreva("[0", casaCorrente, ":", icone, "] ")
+				} senao {
+					escreva("[", casaCorrente, ":", icone, "] ")
+				}
+			}
+			escreva("\n\n")
+		}
+		escreva("---------------------\n")
+	}
+
+	funcao jogarPartida()
+	{
+		cadeia nomes[2]
+		nomes[0] = nomeJogador1
+		nomes[1] = nomeJogador2
+		
+		cadeia times[2]
+		times[0] = timeJogador1
+		times[1] = timeJogador2
+
+		cadeia emojis[2]
+		emojis[0] = emojiJogador1
+		emojis[1] = emojiJogador2
+		
+		inteiro casas[2]
+		casas[0] = 1
+		casas[1] = 1
+		
+		inteiro penalidades[2]
+		penalidades[0] = 0
+		penalidades[1] = 0
+		
+		inteiro vez = 0
+		logico partidaEmAndamento = verdadeiro
+		cadeia controleDado
+		
+		escreva("\n===================================================\n")
+		escreva("⚽ BOLA ROLANDO! INÍCIO DA PARTIDA! ⚽\n")
+		escreva("Ambos os jogadores iniciam na casa 1.\n")
+		escreva("===================================================\n")
+		
+		exibirTabuleiro(casas[0], casas[1])
+
+		enquanto(partidaEmAndamento == verdadeiro)
+		{
+			inteiro pAtual = vez
+			inteiro pAdversario = 1
+			se (vez == 1) {
+				pAdversario = 0
+			}
+
+			escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
+			
+			se (penalidades[pAtual] > 0) {
+				escreva("Você está suspenso pelo juiz e aguarda no banco! (Foi punido e vai perder sua rodada).\n")
+				penalidades[pAtual] = penalidades[pAtual] - 1
+				exibirTabuleiro(casas[0], casas[1])
+			} senao {
+				logico turnoValido = verdadeiro
+				
+				enquanto (turnoValido == verdadeiro) {
+					turnoValido = falso
+					
+					logico leuDado = falso
+					enquanto (leuDado == falso) {
+						escreva("Pressione apenas ENTER para rolar o dado: ")
+						leia(controleDado)
+						se (controleDado != "") {
+							mostrarErro("Opa! Jogada errada! Pressione APENAS a tecla ENTER.")
+							exibirTabuleiro(casas[0], casas[1])
+							escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
+						} senao {
+							leuDado = verdadeiro
+						}
+					}
+
+					limpa()
+					escreva("---> Resultado de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
+
+					inteiro dado = u.sorteia(1, 6)
+					
+					tocarAudio(casas[pAtual], dado)
+					animarDado(dado)
+					
+					escreva("A bola voou e rolou o dado número: ", dado, "!!!\n")
+					
+					casas[pAtual] = casas[pAtual] + dado
+					
+					escreva("Correndo você alcançou a casa ", casas[pAtual], ".\n")
+					
+					se (casas[pAtual] == 2) {
+						escreva("[CASA 2] Bônus: Falta perigosa! O juiz ajustou a barreira. Avance magicamente para a casa 5.\n")
+						casas[pAtual] = 5
+					} senao se (casas[pAtual] == 3) {
+						escreva("[CASA 3] Bônus: Chute de trivela lindíssimo! Role um dado adicional de 3 lados.\n")
+						inteiro extra = u.sorteia(1, 3)
+						escreva("O dado triplo caiu no número: ", extra, "!\n")
+						casas[pAtual] = casas[pAtual] + extra
+						escreva("Agora você parou na casa: ", casas[pAtual], ".\n")
+					} senao se (casas[pAtual] == 7) {
+						escreva("[CASA 7] Punição: Reclamação insistente com o árbitro... Cartão amarelo! Fique 1 rodada sem jogar.\n")
+						penalidades[pAtual] = 1
+					} senao se (casas[pAtual] == 10) {
+						escreva("[CASA 10] Punição: O VAR apontou irregularidade de ambos e trocou a posição de vocês!!\n")
+						inteiro temporario = casas[pAtual]
+						casas[pAtual] = casas[pAdversario]
+						casas[pAdversario] = temporario
+						escreva("Você foi enviado para a casa ", casas[pAtual], " e o adversário levado para a ", casas[pAdversario], "!\n")
+					} senao se (casas[pAtual] == 12) {
+						escreva("[CASA 12] Punição: Impedimento! Volte 1 casa.\n")
+						casas[pAtual] = casas[pAtual] - 1
+					} senao se (casas[pAtual] == 15) {
+						escreva("[CASA 15] Punição: Pênalti pra fora do estádio! E para se redimir, cante uma música na vida real!\n")
+						escreva("Escolha sua forma de escapar da pressão:\n")
+						escreva(" 1 - Cantar presencialmente e manter a posição.\n")
+						escreva(" 2 - Desistir de vergonha e Voltar 2 casas.\n")
+						cadeia decisaoSing = ""
+						logico escolheuMusica = falso
+						enquanto (escolheuMusica == falso) {
+							leia(decisaoSing)
+							se (decisaoSing == "1") {
+								escreva("Maravilha! Você soltou a voz presencialmente e a posição foi mantida!\n")
+								escolheuMusica = verdadeiro
+							} senao se (decisaoSing == "2") {
+								escreva("Pipocou a responsabilidade pra torcida... Você recuou 2 casas.\n")
+								casas[pAtual] = casas[pAtual] - 2
+								escolheuMusica = verdadeiro
+							} senao {
+								mostrarErro("Opção inválida! Escolha 1 ou 2.")
+								escreva("[CASA 15] Punição: Pênalti pra fora do estádio! E para se redimir, cante uma música na vida real!\n")
+								escreva("Escolha sua forma de escapar da pressão:\n")
+								escreva(" 1 - Cantar presencialmente e manter a posição.\n")
+								escreva(" 2 - Desistir de vergonha e Voltar 2 casas.\n")
+							}
+						}
+					} senao se (casas[pAtual] == 19) {
+						escreva("[CASA 19] Punição: Carrinho violento! Cartão Vermelho! O Juiz mandou voltar ao ínicio (CASA 1).\n")
+						casas[pAtual] = 1
+					} senao se (casas[pAtual] == 20) {
+						escreva("[CASA 20] Bônus: Fez o famoso 'Drible da Vaca'. Avance 2 casas!\n")
+						casas[pAtual] = casas[pAtual] + 2
+					} senao se (casas[pAtual] == 21) {
+						escreva("[CASA 21] Punição: Gol com a mão à lá Maradona! O VAR desmascarou e recuou você em 3 casas.\n")
+						casas[pAtual] = casas[pAtual] - 3
+					} senao se (casas[pAtual] == 22) {
+						escreva("[CASA 22] Bônus: Lançamento em profundidade! Avance velozmente até a casa 24.\n")
+						casas[pAtual] = 24
+					} senao se (casas[pAtual] == 23) {
+						escreva("[CASA 23] Bônus: Pênalti no escanteio! Jogue o dado de novo AGORA!\n")
+						turnoValido = verdadeiro
+					} senao se (casas[pAtual] == 24) {
+						escreva("[CASA 24] Punição: Bola quebra as pernas mas NÃO ENTRA! Fique 1 rodada no chão.\n")
+						penalidades[pAtual] = 1
+					}
+
+					se (casas[pAtual] >= 25) {
+						casas[pAtual] = 25
+						
+						exibirTabuleiro(casas[0], casas[1])
+
+						escreva("\nGOOOOOOOOLLAAAAAAAAÇOOOOOO! O JUIZ APITA O FIM DA COPA DO MUNDO DE TABULEIRO!! 🏆\n")
+						escreva("O ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") alcançou a casa mestre ", casas[pAtual], " e faturou a Partida!\n")
+						
+						se (vez == 0) {
+							vitoriasJogador1 = vitoriasJogador1 + 1
+						} senao {
+							vitoriasJogador2 = vitoriasJogador2 + 1
+						}
+						
+						partidaEmAndamento = falso
+						turnoValido = falso 
+
+						escreva("\nPressione ENTER para ver a celebração e voltar ao menu...")
+						cadeia menuRetorno
+						leia(menuRetorno)
+						limpa()
+
+						animarVitoria(nomes[pAtual], times[pAtual], emojis[pAtual])
+
+					} senao se (turnoValido == falso) {
+						exibirTabuleiro(casas[0], casas[1])
+					}
+				} 
+			}
+
+			se (partidaEmAndamento == verdadeiro) {
+				se (vez == 0) {
+					vez = 1
+				} senao {
+					vez = 0
+				}
+			}
+			
+		} 
+	}
+
+	funcao animarVitoria(cadeia nome, cadeia time, cadeia emoji)
+	{
+		inteiro animacao
+para (animacao=0; animacao <= 50; animacao++){
+
+//Frame 1
+
+escreva("\n_________________________________________________________________________________________________ ")
+escreva("\n                                                                                                 |")
+escreva("\n                                                                                                 |")
+escreva("\n         ██████╗     █████╗     ███╗   ███╗    ██████╗     ███████╗     █████╗      ██████╗      |")
+escreva("\n        ██╔════╝    ██╔══██╗    ████╗ ████║    ██╔══██╗    ██╔════╝    ██╔══██╗    ██╔═══██╗     |")
+escreva("\n        ██║         ███████║    ██╔████╔██║    ██████╔╝    █████╗      ███████║    ██║   ██║     |")
+escreva("\n        ██║         ██╔══██║    ██║╚██╔╝██║    ██╔═══╝     ██╔══╝      ██╔══██║    ██║   ██║     |")
+escreva("\n        ╚██████╗    ██║  ██║    ██║ ╚═╝ ██║    ██║         ███████╗    ██║  ██║    ╚██████╔╝     |")
+escreva("\n         ╚═════╝    ╚═╝  ╚═╝    ╚═╝     ╚═╝    ╚═╝         ╚══════╝    ╚═╝  ╚═╝     ╚═════╝      |")
+escreva("\n                                                                                                 |")
+escreva("\n_________________________________________________________________________________________________|")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                      \\                          ")
+escreva("\n       X                      *                             *          \\   X        *            ")
+escreva("\n________________                                                        \\                        ")
+escreva("\n               /                                                         \\                       ")
+escreva("\n              /        *                                            ______\\_______               ")
+escreva("\n             /                             \\ O /                   \\       \\        \\            ")
+escreva("\n            /                       *        |                    \\         \\         \\          ")
+escreva("\n           /                                / \\                  \\         ( \\ )        \\        ")
+escreva("\n          /                                                       \\           \\          \\       ")
+escreva("\n         /                                                  *       \\          \\         \\       ")
+escreva("\n        /                                                             \\ ________\\________\\        ")
+escreva("\n       /            *           X                                                \\                ")
+escreva("\n______/                                      *                                    \\               ")
+escreva("\n                                                                          *        \\              ")
+escreva("\n                                                                  X                 \\             ")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                                                  ")
+escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
+			para (inteiro delay = 0; delay < 10000000; delay++) {}
+limpa()
+
+//Frame 2
+
+escreva("\n_________________________________________________________________________________________________ ")
+escreva("\n                                                                                                 |")
+escreva("\n                                                                                                 |")
+escreva("\n         ██████╗     █████╗     ███╗   ███╗    ██████╗     ███████╗     █████╗      ██████╗      |")
+escreva("\n        ██╔════╝    ██╔══██╗    ████╗ ████║    ██╔══██╗    ██╔════╝    ██╔══██╗    ██╔═══██╗     |")
+escreva("\n        ██║         ███████║    ██╔████╔██║    ██████╔╝    █████╗      ███████║    ██║   ██║     |")
+escreva("\n        ██║         ██╔══██║    ██║╚██╔╝██║    ██╔═══╝     ██╔══╝      ██╔══██║    ██║   ██║     |")
+escreva("\n        ╚██████╗    ██║  ██║    ██║ ╚═╝ ██║    ██║         ███████╗    ██║  ██║    ╚██████╔╝     |")
+escreva("\n         ╚═════╝    ╚═╝  ╚═╝    ╚═╝     ╚═╝    ╚═╝         ╚══════╝    ╚═╝  ╚═╝     ╚═════╝      |")
+escreva("\n                                                                                                 |")
+escreva("\n_________________________________________________________________________________________________|")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                      \\                          ")
+escreva("\n                                                                       \\                         ")
+escreva("\n________________              *                             *           \\           *            ")
+escreva("\n               /                                                         \\                       ")
+escreva("\n              /                                                     ______\\_______               ")
+escreva("\n             /         *                     O                     \\       \\        \\            ")
+escreva("\n            /                               /|\\                   \\         \\         \\          ")
+escreva("\n           /                        *       / \\                  \\         ( \\ )        \\        ")
+escreva("\n          /                                                       \\           \\          \\       ")
+escreva("\n         /                                                          \\          \\         \\       ")
+escreva("\n        /                                                   *         \\ ________\\________\\        ")
+escreva("\n       /                                                                         \\                ")
+escreva("\n______/             *                                                             \\               ")
+escreva("\n                                             *                                     \\              ")
+escreva("\n                                                                          *         \\             ")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                                                  ")
+escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
+			para (inteiro delay = 0; delay < 10000000; delay++) {}
+limpa()
+
+//Frame 3
+
+escreva("\n_________________________________________________________________________________________________ ")
+escreva("\n                                                                                                 |")
+escreva("\n                                                                                                 |")
+escreva("\n         ██████╗     █████╗     ███╗   ███╗    ██████╗     ███████╗     █████╗      ██████╗      |")
+escreva("\n        ██╔════╝    ██╔══██╗    ████╗ ████║    ██╔══██╗    ██╔════╝    ██╔══██╗    ██╔═══██╗     |")
+escreva("\n        ██║         ███████║    ██╔████╔██║    ██████╔╝    █████╗      ███████║    ██║   ██║     |")
+escreva("\n        ██║         ██╔══██║    ██║╚██╔╝██║    ██╔═══╝     ██╔══╝      ██╔══██║    ██║   ██║     |")
+escreva("\n        ╚██████╗    ██║  ██║    ██║ ╚═╝ ██║    ██║         ███████╗    ██║  ██║    ╚██████╔╝     |")
+escreva("\n         ╚═════╝    ╚═╝  ╚═╝    ╚═╝     ╚═╝    ╚═╝         ╚══════╝    ╚═╝  ╚═╝     ╚═════╝      |")
+escreva("\n                                                                                                 |")
+escreva("\n_________________________________________________________________________________________________|")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                      \\                          ")
+escreva("\n                                                                       \\                         ")
+escreva("\n________________                                                        \\                        ")
+escreva("\n               /              *                             *            \\          *            ")
+escreva("\n              /                                                     ______\\_______               ")
+escreva("\n             /                             \\ O /                   \\       \\        \\            ")
+escreva("\n            /          *                     |                    \\         \\         \\          ")
+escreva("\n           /                                / \\                  \\         ( \\ )        \\        ")
+escreva("\n          /                         *                             \\           \\          \\       ")
+escreva("\n         /                                                          \\          \\         \\       ")
+escreva("\n        /                                                             \\ ________\\________\\        ")
+escreva("\n       /                                                    *                    \\                ")
+escreva("\n______/                                                                           \\               ")
+escreva("\n                    *                                                     *        \\              ")
+escreva("\n                                             *                                      \\             ")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                                                  ")
+escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
+			para (inteiro delay = 0; delay < 10000000; delay++) {}
+limpa()
+
+//Frame 4
+
+escreva("\n_________________________________________________________________________________________________ ")
+escreva("\n                                                                                                 |")
+escreva("\n                                                                                                 |")
+escreva("\n         ██████╗     █████╗     ███╗   ███╗    ██████╗     ███████╗     █████╗      ██████╗      |")
+escreva("\n        ██╔════╝    ██╔══██╗    ████╗ ████║    ██╔══██╗    ██╔════╝    ██╔══██╗    ██╔═══██╗     |")
+escreva("\n        ██║         ███████║    ██╔████╔██║    ██████╔╝    █████╗      ███████║    ██║   ██║     |")
+escreva("\n        ██║         ██╔══██║    ██║╚██╔╝██║    ██╔═══╝     ██╔══╝      ██╔══██║    ██║   ██║     |")
+escreva("\n        ╚██████╗    ██║  ██║    ██║ ╚═╝ ██║    ██║         ███████╗    ██║  ██║    ╚██████╔╝     |")
+escreva("\n         ╚═════╝    ╚═╝  ╚═╝    ╚═╝     ╚═╝    ╚═╝         ╚══════╝    ╚═╝  ╚═╝     ╚═════╝      |")
+escreva("\n                                                                                                 |")
+escreva("\n_________________________________________________________________________________________________|")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                      \\                          ")
+escreva("\n                                                                       \\                         ")
+escreva("\n________________                                                        \\                        ")
+escreva("\n               /                                                         \\                       ")
+escreva("\n              /               *                             *       ______\\_______  *            ")
+escreva("\n             /                             \\ O /                   \\       \\        \\            ")
+escreva("\n            /                                |                    \\         \\         \\          ")
+escreva("\n           /           *                    / \\                  \\         ( \\ )        \\        ")
+escreva("\n          /                                                       \\           \\          \\       ")
+escreva("\n         /                          *                               \\          \\         \\       ")
+escreva("\n        /                                                             \\ ________\\________\\        ")
+escreva("\n       /                                                                         \\                ")
+escreva("\n______/                                                     *                     \\               ")
+escreva("\n                                                                                   \\              ")
+escreva("\n                    *                                                     *         \\             ")
+escreva("\n__________________________________________________________________________________________________")
+escreva("\n                                                                                                  ")
+escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
+			para (inteiro delay = 0; delay < 10000000; delay++) {}
+			se (animacao < 50) {
+				limpa()
+			} senao {
+				escreva("\n\nPressione ENTER para finalizar a festa e voltar ao Menu...")
+				cadeia fimFesta
+				leia(fimFesta)
+				limpa()
+			}
+    }
+  }
+	}
 }
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1846; 
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */
