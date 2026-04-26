@@ -1,8 +1,8 @@
 programa
 {
-	inclua biblioteca Sons --> s
 	inclua biblioteca Util --> u
 	inclua biblioteca Texto --> txt
+	
 	// Variáveis globais
 	inteiro vitoriasJogador1 = 0
 	inteiro vitoriasJogador2 = 0
@@ -21,7 +21,6 @@ programa
 
 		enquanto(executando == verdadeiro)
 		{
-			tocarAudio()
 			escreva("\n===================================================\n")
 			escreva("       ⚽ CAMPEONATO DE FUTEBOL DE TABULEIRO ⚽      \n")
 			escreva("===================================================\n")
@@ -42,22 +41,10 @@ programa
 			} senao se (opcaoMenu == "2") {
 				mostrarPlacar()
 			} senao se (opcaoMenu == "3") {
-				escreva("=================================================")
-				escreva("\n\n  FIM DE JOGO! APITO FINAL E FIM DA TRANSMISSÃO!\n\n")
-				escreva("=================================================")
-				u.aguarde(950)
-				limpa()
-				u.aguarde(950)
+				escreva("Fim de jogo! Apito final e fim da transmissão!\n")
 				executando = falso
 			} senao {
-				para(inteiro i = 0; i<9; i++){
-					escreva("=================================================")
-					escreva("\n\n   PÊNALTI! OPÇÃO INVÁLIDA ESCOLHA 1, 2 OU 3.\n\n")
-					escreva("=================================================")
-					u.aguarde(950)
-					limpa()
-					u.aguarde(950)
-				}
+				mostrarErro("Pênalti! Opção inválida! Escolha 1, 2 ou 3.")
 			}
 		}
 	}
@@ -96,8 +83,8 @@ programa
 			escreva("              ⚽ MODO DE COMPETIÇÃO 🏆               \n")
 			escreva("===================================================\n")
 			escreva("Antes de rolar a bola, escolha o ritmo da partida:\n\n")
-			escreva(" [A] Automático: Sem interrupções. Os dados rolam de\n")
-			escreva("     forma automática e o jogo corre até a vitória.\n")
+			escreva(" [A] Automático: Sem interrupções (Nota: O dado neste\n")
+			escreva("     modo Debug continuará sendo digitado manualmente).\n")
 			escreva(" [M] Manual: Você controla tudo! Exige apertar ENTER\n")
 			escreva("     para jogar os dados e para fechar mensagens.\n")
 			escreva(" [S] Semi-Automático: Requer tocar no ENTER para \n")
@@ -161,19 +148,6 @@ programa
 
 		logico time1Valido = falso
 		logico time2Valido = falso
-		
-		cadeia times[11]
-		times [0] = "0 - Atlético Mineiro (🐓)"
-		times [1] = "1 - Barcelona (🔵)"
-		times [2] = "2 - Brasil de Pelotas (🐺)"
-		times [3] = "3 - Chapecoense (🏹)"
-		times [4] = "4 - Cruzeiro (🦊)"
-		times [5] = "5 - Flamengo (🦅)"
-		times [6] = "6 - Fluminense (🛡️)"
-		times [7] = "7 - Grêmio (🇪🇪)"
-		times [8] = "8 - Palmeiras (🐷)"
-		times [9] = "9 - Real Madrid (👑)"
-		times [10] = "10 - São Paulo (🔴)"
 
 		enquanto(time1Valido == falso)
 		{
@@ -182,33 +156,34 @@ programa
 			escreva("               👕 VESTIÁRIO DOS TIMES                 \n")
 			escreva("===================================================\n")
 			escreva("---> ELENCO DO JOGADOR 1: ", nomeJogador1, " <---\n")
-			para(inteiro i = 0; i <=10; i++){
-				escreva(times[i] + "\n") 
-			}
+			escreva(" 1 - Atlético Mineiro (🐓)\n")
+			escreva(" 2 - Barcelona (🔵)\n")
+			escreva(" 3 - Brasil de Pelotas (🐺)\n")
+			escreva(" 4 - Chapecoense (🏹)\n")
+			escreva(" 5 - Cruzeiro (🦊)\n")
+			escreva(" 6 - Flamengo (🦅)\n")
+			escreva(" 7 - Fluminense (🛡️)\n")
+			escreva(" 8 - Grêmio (🇪🇪)\n")
+			escreva(" 9 - Palmeiras (🐷)\n")
+			escreva("10 - Real Madrid (👑)\n")
+			escreva("11 - São Paulo (🔴)\n")
 			escreva("===================================================\n")
 			escreva("\nDigite o número do time escolhido: ")
-			inteiro escolha1
+			cadeia escolha1
 			leia(escolha1)
 
-			se (escolha1 == 0) { timeJogador1 = "Atlético Mineiro" emojiJogador1 = "🐓" time1Valido = verdadeiro }
-			senao se (escolha1 == 1) { timeJogador1 = "Barcelona" emojiJogador1 = "🔵" time1Valido = verdadeiro }
-			senao se (escolha1 == 2) { timeJogador1 = "Brasil de Pelotas" emojiJogador1 = "🐺" time1Valido = verdadeiro }
-			senao se (escolha1 == 3) { timeJogador1 = "Chapecoense" emojiJogador1 = "🏹" time1Valido = verdadeiro }
-			senao se (escolha1 == 4) { timeJogador1 = "Cruzeiro" emojiJogador1 = "🦊" time1Valido = verdadeiro }
-			senao se (escolha1 == 5) { timeJogador1 = "Flamengo" emojiJogador1 = "🦅" time1Valido = verdadeiro }
-			senao se (escolha1 == 6) { timeJogador1 = "Fluminense" emojiJogador1 = "🛡️" time1Valido = verdadeiro }
-			senao se (escolha1 == 7) { timeJogador1 = "Grêmio" emojiJogador1 = "🇪🇪" time1Valido = verdadeiro }
-			senao se (escolha1 == 8) { timeJogador1 = "Palmeiras" emojiJogador1 = "🐷" time1Valido = verdadeiro }
-			senao se (escolha1 == 9) { timeJogador1 = "Real Madrid" emojiJogador1 = "👑" time1Valido = verdadeiro }
-			senao se (escolha1 == 10) { timeJogador1 = "São Paulo" emojiJogador1 = "🔴" time1Valido = verdadeiro }
-			senao { mostrarErro("Time inválido! Você chutou pra fora. Escolha um time dentre os apresentados acima.") }
-			para(inteiro j = escolha1; j <=10; j++){
-				se(j == 10){
-					times[10] = ""
-				}senao{
-					times[j] = times[j+1]
-				}
-			}
+			se (escolha1 == "1") { timeJogador1 = "Atlético Mineiro" emojiJogador1 = "🐓" time1Valido = verdadeiro }
+			senao se (escolha1 == "2") { timeJogador1 = "Barcelona" emojiJogador1 = "🔵" time1Valido = verdadeiro }
+			senao se (escolha1 == "3") { timeJogador1 = "Brasil de Pelotas" emojiJogador1 = "🐺" time1Valido = verdadeiro }
+			senao se (escolha1 == "4") { timeJogador1 = "Chapecoense" emojiJogador1 = "🏹" time1Valido = verdadeiro }
+			senao se (escolha1 == "5") { timeJogador1 = "Cruzeiro" emojiJogador1 = "🦊" time1Valido = verdadeiro }
+			senao se (escolha1 == "6") { timeJogador1 = "Flamengo" emojiJogador1 = "🦅" time1Valido = verdadeiro }
+			senao se (escolha1 == "7") { timeJogador1 = "Fluminense" emojiJogador1 = "🛡️" time1Valido = verdadeiro }
+			senao se (escolha1 == "8") { timeJogador1 = "Grêmio" emojiJogador1 = "🇪🇪" time1Valido = verdadeiro }
+			senao se (escolha1 == "9") { timeJogador1 = "Palmeiras" emojiJogador1 = "🐷" time1Valido = verdadeiro }
+			senao se (escolha1 == "10") { timeJogador1 = "Real Madrid" emojiJogador1 = "👑" time1Valido = verdadeiro }
+			senao se (escolha1 == "11") { timeJogador1 = "São Paulo" emojiJogador1 = "🔴" time1Valido = verdadeiro }
+			senao { mostrarErro("Time inválido! Você chutou pra fora. Digite um número de 1 a 11.") }
 		}
 
 		enquanto(time2Valido == falso)
@@ -218,29 +193,37 @@ programa
 			escreva("               👕 VESTIÁRIO DOS TIMES                 \n")
 			escreva("===================================================\n")
 			escreva("---> ELENCO DO JOGADOR 2: ", nomeJogador2, " <---\n")
-			escreva("Lista de times para escolher (exceto o ", timeJogador1, "):\n\n")
-			para(inteiro i = 0; i <=10; i++){
-				escreva(times[i] + "\n") 
-			}
+			escreva("Lista de times para escolher (exceto ", timeJogador1, "):\n\n")
+			escreva(" 1 - Atlético Mineiro (🐓)\n")
+			escreva(" 2 - Barcelona (🔵)\n")
+			escreva(" 3 - Brasil de Pelotas (🐺)\n")
+			escreva(" 4 - Chapecoense (🏹)\n")
+			escreva(" 5 - Cruzeiro (🦊)\n")
+			escreva(" 6 - Flamengo (🦅)\n")
+			escreva(" 7 - Fluminense (🛡️)\n")
+			escreva(" 8 - Grêmio (🇪🇪)\n")
+			escreva(" 9 - Palmeiras (🐷)\n")
+			escreva("10 - Real Madrid (👑)\n")
+			escreva("11 - São Paulo (🔴)\n")
 			escreva("===================================================\n")
 			escreva("\nDigite o número do time escolhido: ")
-			inteiro escolha2
+			cadeia escolha2
 			leia(escolha2)
 
 			cadeia tempTime = ""
 			cadeia tempEmoji = ""
 			
-			se (escolha2 == 0) { tempTime = "Atlético Mineiro" tempEmoji = "🐓" }
-			senao se (escolha2 == 1) { tempTime = "Barcelona" tempEmoji = "🔵" }
-			senao se (escolha2 == 2) { tempTime = "Brasil de Pelotas" tempEmoji = "🐺" }
-			senao se (escolha2 == 3) { tempTime = "Chapecoense" tempEmoji = "🏹" }
-			senao se (escolha2 == 4) { tempTime = "Cruzeiro" tempEmoji = "🦊" }
-			senao se (escolha2 == 5) { tempTime = "Flamengo" tempEmoji = "🦅" }
-			senao se (escolha2 == 6) { tempTime = "Fluminense" tempEmoji = "🛡️" }
-			senao se (escolha2 == 7) { tempTime = "Grêmio" tempEmoji = "🇪🇪" }
-			senao se (escolha2 == 8) { tempTime = "Palmeiras" tempEmoji = "🐷" }
-			senao se (escolha2 == 9) { tempTime = "Real Madrid" tempEmoji = "👑" }
-			senao se (escolha2 == 10) { tempTime = "São Paulo" tempEmoji = "🔴" }
+			se (escolha2 == "1") { tempTime = "Atlético Mineiro" tempEmoji = "🐓" }
+			senao se (escolha2 == "2") { tempTime = "Barcelona" tempEmoji = "🔵" }
+			senao se (escolha2 == "3") { tempTime = "Brasil de Pelotas" tempEmoji = "🐺" }
+			senao se (escolha2 == "4") { tempTime = "Chapecoense" tempEmoji = "🏹" }
+			senao se (escolha2 == "5") { tempTime = "Cruzeiro" tempEmoji = "🦊" }
+			senao se (escolha2 == "6") { tempTime = "Flamengo" tempEmoji = "🦅" }
+			senao se (escolha2 == "7") { tempTime = "Fluminense" tempEmoji = "🛡️" }
+			senao se (escolha2 == "8") { tempTime = "Grêmio" tempEmoji = "🇪🇪" }
+			senao se (escolha2 == "9") { tempTime = "Palmeiras" tempEmoji = "🐷" }
+			senao se (escolha2 == "10") { tempTime = "Real Madrid" tempEmoji = "👑" }
+			senao se (escolha2 == "11") { tempTime = "São Paulo" tempEmoji = "🔴" }
 			senao { mostrarErro("Time inválido! Tente de novo.") }
 
 			se (tempTime != "") {
@@ -259,29 +242,22 @@ programa
 
 	funcao mostrarPlacar()
 	{
+		escreva("\n===================================================\n")
+		escreva("🏆 PLACAR GERAL DO CAMPEONATO🏆\n")
+		escreva("===================================================\n")
 		se (timeJogador1 != "") {
-			escreva("\n============ 🏆 PLACAR GERAL DO CAMPEONATO 🏆 ============\n")
-			escreva("\n   JOGADOR 1 (TIME ", timeJogador1, ") ------------------ ", vitoriasJogador1, " VITÓRIA(S)\n\n")
-			escreva("   JOGADOR 2 (TIME ", timeJogador2, ") ------------------ ", vitoriasJogador2, " VITÓRIA(S)\n")
-			escreva("\n========================================================\n")
-			u.aguarde(15000)
-			limpa()
+			escreva("Jogador 1: ", nomeJogador1, " (Time ", timeJogador1, " ", emojiJogador1, "): ", vitoriasJogador1, " vitória(s)\n")
+			escreva("Jogador 2: ", nomeJogador2, " (Time ", timeJogador2, " ", emojiJogador2, "): ", vitoriasJogador2, " vitória(s)\n")
 		} senao {
-			limpa()
-			para(inteiro i = 0; i < 9; i++){
-				escreva("\n============ 🏆 PLACAR GERAL DO CAMPEONATO 🏆 ============\n")
-				escreva("\n\n             A TEMPORADA AINDA NÃO INICIOU!\n         JOGUE A PRIMEIRA PARTIDA E VOLTE AQUI.\n\n")
-				escreva("\n=========================================================\n")
-				u.aguarde(950)
-				limpa()
-				u.aguarde(950)
-			}
-			escreva("Pressione ENTER para voltar...")
-			cadeia pausa
-			leia(pausa)
-			limpa()
+			escreva("A temporada ainda não iniciou! Jogue a primeira partida e volte aqui.\n")
 		}
+		escreva("===================================================\n\n")
+		escreva("Pressione ENTER para voltar...")
+		cadeia pausa
+		leia(pausa)
+		limpa()
 	}
+
 
 	funcao animarDado(inteiro numero)
 	{
@@ -289,28 +265,28 @@ programa
 		escreva(" +-------+ \n")
 		se (numero == 1) { 
 			escreva(" |       | \n")
-			escreva(" |   *   | \n")
+			escreva(" |   .   | \n")
 			escreva(" |       | \n")
 		} senao se (numero == 2) { 
-			escreva(" | *     | \n")
+			escreva(" | .     | \n")
 			escreva(" |       | \n")
-			escreva(" |     * | \n")
+			escreva(" |     . | \n")
 		} senao se (numero == 3) { 
-			escreva(" | *     | \n")
-			escreva(" |   *   | \n")
-			escreva(" |     * | \n")
+			escreva(" | .     | \n")
+			escreva(" |   .   | \n")
+			escreva(" |     . | \n")
 		} senao se (numero == 4) { 
-			escreva(" | *   * | \n")
+			escreva(" | .   . | \n")
 			escreva(" |       | \n")
-			escreva(" | *   * | \n")
+			escreva(" | .   . | \n")
 		} senao se (numero == 5) { 
-			escreva(" | *   * | \n")
-			escreva(" |   *   | \n")
-			escreva(" | *   * | \n")
+			escreva(" | .   . | \n")
+			escreva(" |   .   | \n")
+			escreva(" | .   . | \n")
 		} senao se (numero == 6) { 
-			escreva(" | *   * | \n")
-			escreva(" | *   * | \n")
-			escreva(" | *   * | \n")
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
+			escreva(" | .   . | \n")
 		}
 		escreva(" +-------+ \n")
 	}
@@ -418,22 +394,24 @@ programa
 					// Mostra de quem é o turno abaixo do tabuleiro
 					escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 					
-					se (modoJogo == "A") {
-						escreva("Aguardando o apito do juiz (Automático)...")
-						u.aguarde(4000)
-					} senao {
-						logico leuDado = falso
-						enquanto (leuDado == falso) {
-							escreva("Pressione apenas ENTER para rolar o dado: ")
-							leia(controleDado)
-							se (controleDado != "") {
-								mostrarErro("Opa! Jogada errada! Pressione APENAS a tecla ENTER.")
-								limpa()
-								exibirTabuleiro(casas[0], casas[1])
-								escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
-							} senao {
-								leuDado = verdadeiro
-							}
+					inteiro dado = 0
+					logico leuDado = falso
+					enquanto (leuDado == falso) {
+						escreva("MODO DEBUG - Digite o número forçado do dado (1 a 6): ")
+						cadeia debug_str
+						leia(debug_str)
+						se (debug_str == "1" ou debug_str == "2" ou debug_str == "3" ou debug_str == "4" ou debug_str == "5" ou debug_str == "6") {
+							se (debug_str == "1") { dado = 1 }
+							senao se (debug_str == "2") { dado = 2 }
+							senao se (debug_str == "3") { dado = 3 }
+							senao se (debug_str == "4") { dado = 4 }
+							senao se (debug_str == "5") { dado = 5 }
+							senao se (debug_str == "6") { dado = 6 }
+							leuDado = verdadeiro
+						} senao {
+							mostrarErro("Opa! Digite apenas números de 1 a 6 no modo Debug.")
+							exibirTabuleiro(casas[0], casas[1])
+							escreva("\n---> Vez de ", nomes[pAtual], " (Time ", times[pAtual], " ", emojis[pAtual], ") <---\n")
 						}
 					}
 
@@ -466,7 +444,7 @@ programa
 							escreva("\n\n(Modo Manual) Pressione ENTER para descobrir...")
 							leia(controleDado)
 						} senao {
-							u.aguarde(5000)
+							u.aguarde(3000)
 						}
 
 						// Fase 2: Mostrar apenas o tabuleiro e a consequência da casa
@@ -507,12 +485,12 @@ programa
 								se (decisaoSing == "1") {
 									escreva("Maravilha! Você soltou a voz presencialmente e a posição foi mantida!\n")
 									escolheuMusica = verdadeiro
-									u.aguarde(2000)
+									u.aguarde(2500)
 								} senao se (decisaoSing == "2") {
 									escreva("Pipocou a responsabilidade pra torcida... Você recuou 2 casas.\n")
 									casas[pAtual] = casas[pAtual] - 2
 									escolheuMusica = verdadeiro
-									u.aguarde(2000)
+									u.aguarde(2500)
 								} senao {
 									mostrarErro("Opção inválida! Escolha 1 ou 2.")
 									limpa()
@@ -548,7 +526,7 @@ programa
 							escreva("\n(Modo Manual) Pressione ENTER para concluir o processamento da regra...")
 							leia(controleDado)
 						} senao {
-							u.aguarde(7000)
+							u.aguarde(4500)
 						}
                         
 						// Fase 3: Retornar ao log Normal restaurado no fim da consequência
@@ -557,21 +535,6 @@ programa
 						animarDado(dado)
 						escreva("Você havia rolado ", dado, " e alcançado a casa ", casaDestino, ".\n")
 						escreva("Após o evento, sua posição consolidada é a casa ", casas[pAtual], "!\n")
-						
-						se (modoJogo == "M") {
-							escreva("\n(Modo Manual) Pressione ENTER para continuar...")
-							leia(controleDado)
-						} senao {
-							u.aguarde(5500)
-						}
-					} senao se (casas[pAtual] < 25) {
-						escreva("\nJogada limpa! Nenhuma regra especial na casa ", casaDestino, ".\n")
-						se (modoJogo == "M") {
-							escreva("\n(Modo Manual) Pressione ENTER para continuar...")
-							leia(controleDado)
-						} senao {
-							u.aguarde(5500)
-						}
 					}
 
 					se (casas[pAtual] >= 25) {
@@ -770,6 +733,5 @@ escreva("\n     ===> GANHADOR: ", nome, " - ", time, " ", emoji, " <===\n")
 			}
     }
   }
+	}
 }
-
-
