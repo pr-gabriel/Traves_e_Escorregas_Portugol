@@ -1,2 +1,5 @@
 # Futebel_Traves_E_Escorregas
-Projeto constituído por 6 programadores graduandos do curdo ADS do 1°, que tem como intuito produzir um jogo de tabuleiro em portugol.
+O jogo funciona em turnos alternados, onde cada jogador joga um dado de 6 faces, onde um valor aleatório entre 1 e 6 é gerado, determinando assim quais casas cada jogador irá avançar. O tabuleiro do jogo é composto por 25 casas, onde algumas dessas casas possuem casas com benefícios e punições, onde o evento é ativado quando um dos  jogadores se encontram em uma dessas casas. O sistema controla penalidades, fazendo com que jogadores eventualmente percam rodadas e mantém o controle das posições de ambos os jogadores em tempo real.
+
+O jogo conta com um sistema de placar que registra o número de vitórias de cada jogador ao longos das partidas, que pode ser consultado a qualquer momento pelo menu principal. O jogo foi construindo com os conhecimentos adquiridos em sala de aula, como: estruturas de repetição, condicionais, vetores, funções e validação de dados.
+
